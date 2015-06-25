@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+
+    <title>About the HRGP family</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="css/blog.css" rel="stylesheet">
+  </head>
+
+  <body>
+
+    <div class="blog-masthead">
+      <div class="container">
+        <nav class="blog-nav">
+          <a class="blog-nav-item" href="index.html">Home</a>
+          <a class="blog-nav-item active" href="hrgp.html">About HRGP</a>
+          <a class="blog-nav-item" href="methods.html">Bioinformatics</a>
+          <a class="blog-nav-item" href="phylogeny.html">Phylogeny</a>
+          <a class="blog-nav-item" href="download.html">Download</a>
+          <a class="blog-nav-item" href="about_us.html">About us</a>
+        </nav>
+      </div>
+    </div>
+
+    <div class="container">
+
+      <div class="blog-header">
+        <p class="lead blog-description">
+            Understanding evolution through big-data RNA-seq processing.
+        </p>
+      </div>
+
+      <div class="row">
+
+        <div class="col-sm-8 blog-main">
+
+          <div class="blog-post">
+            <h2 class="blog-post-title">About the project</h2>
+            
+            <p>
+            As gene family experts within the OneKP consortium, we were tasked with finding HRGP and GT2
+            gene family members. Performing this is no easy task with a dataset the sheer size of OneKP:
+            comprising well over 1200 distinct RNA-seq samples from over 1000 plant and algae sampled
+            throughout evolution at key points based on existing literature. HRGP proteins are
+            rich in proline (P) and feature compositionally biased backbones. Typically, they
+            possess an N-terminal ER signal sequence and GPI anchor.</p>
+            
+            <p>
+            Initial investigations showed that few HRGP family members existed in the proteins
+            predicted from the OneKP consortium, perhaps due to assembly and pipeline thresholds.
+            To address this, we reassembled all available samples (over 1200) with 
+            <a href="http://www.ebi.ac.uk/~zerbino/oases">Oases</a> at four large k-mers: 39, 49, 59 and 69
+            to try to span tandem repeats that are common to this family. These datasets are
+            available for download.
+            </p>
+            
+            <p>
+                The HRGP family comprises numerous sub-families both with recognised domains
+                (chimeric HRGP) and without (non-chimeric HRGP). Our intention was to investigate
+                non-chimeric HRGPs at this time, with followup studies to investigate the
+                chimeric sub-families. Figure A depicts the basic overview of the MAAB processing
+                pipeline.
+            </p>
+            <img src="images/figure2a.png" alt="HRGP overview" style="max-width: 70%;"/>
+
+          </div><!-- /.blog-post -->
+
+          <div class="blog-post">
+            <h2 class="blog-post-title">Construction of the dataset</h2>
+              <p>
+                    The OneKP consortium provides existing datasets of over 1200 species:
+                    </p> 
+                       
+                    <ul>
+                        <li>SOAPdenovo-assembled k25 contigs (designated the k25 dataset). This dataset does not employ scaffolding</li>
+                        <li>SOAPdenovo-assembled k25s scaffolds (designated the k25s dataset). This dataset scaffolds the contigs where sufficient pairs
+                            exist to define the distance separating the contigs.</li>
+                    </ul>
+                    
+                    <p>
+                        Unfortunately neither data uses a large enough K (25) to ensure tandem repeats present in HRGP family
+                        are correctly re-constructed with a De-Bruijn graph assembly methods. To address this,
+                        we use larger k-mers and a multiple-K assembly methodology. K-mers 39,49,59 and 69 were
+                        chosen, all available samples were assembled at each k-mer. Subsequently, predicted
+                        proteins were then filtered for indicative HRGP compositional bias and then subject to a
+                        hand-crafted decision tree classifier (MAAB) into one of twenty-four predefined HRGP
+                        classes. MAAB processing steps are depicted in Figure B.
+                    </p>
+                    
+                    <img style="max-width: 80%" src="images/figure2b.png" />
+            
+          </div>
+          
+          <div class="blog-post">
+            <h2 class="blog-post-title">Methods for each superfamily</h2>
+        
+            <p>
+            Our aim in processing of the 1kp data was to identify key subfamilies of the broader HRGP family,
+            many of which are difficult to analyse due to compositional bias (at either nucleotide or amino acid levels):
+            </p>
+
+            <ul>
+                    <li>Classical AGP: these possess both signal sequence and a GPI-anchor</li>
+
+                    <li>Extensin: these do not (generally) possess a GPI anchor and have a tandem repeat structure often more than 10aa in length</li>
+
+                    <li>Proline-rich protein (PRP): a little studied family of proteins with some recognised repeat motifs</li>
+
+                    <li>Fasciclin-like AGP (FLA): in some sense a classical AGP with one or more Fasciclin PFAM domains 
+                    (often including a proline-rich region). Some FLA's include GPI anchors, some do not. Some contain
+                    recognised signal sequence. This family is discussed in more detail below</li>
+
+                    <li>AG-Peptide: a short mature protein backbone of approximately 12AA with GPI anchor and signal peptide,
+                    with hydroylation motifs along the backbone. See discussion below</li>
+            </ul>
+
+	<p>
+            Our observations of this family and published literature suggest: </p>
+	<ul>
+		<li>a compositional bias which, based on selected proteomes from phytozome.net, can be partially used to separate the AGP, PRP and Extensin family members</li>
+		<li>presence of motifs thought to be hydroxylated via the P4H genes</li>
+		<li>presence of protein architecture features eg. signal sequence, gpi anchor or domain(s) which can further be used to classify the family</li>
+	</ul>
+	<p>We then designed the following multi-stage pipeline to address identification of these family members:
+        
+	and evaluated this pipeline against five species from phytozome.net (Arabidopsis Thaliana, Brachypodium Distyachon, Chlamydomas Reinhardtii, 
+	Selaginella Moendorffi and Physcomitrella Patens) with reference to the existing scientific literature. Once we were satisfied that the pipeline
+	could adequately identify known AGP/Extensin/PRP's from the reference species selected from phytozome, we then ran the pipeline over suitable
+	sequences extracted from the oases k=59 ab initio protein predictions, and for comparison, the 1kp SOAPDeNovoTrans k=25 predicted proteins.
+	</p>
+
+        </div><!-- /.blog-post -->
+        </div>
+
+        <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
+          <div class="sidebar-module sidebar-module-inset">
+            <h4>About</h4>
+            <p>Over 1200 RNA-seq samples comprise the 1KP project. We provide our own 
+            assemblies of the samples using large k-mers suited for spanning tandem repeats
+            common to the HRGP family.</p>
+          </div>
+          <div class="sidebar-module">
+            <h4>Other 1KP sites</h4>
+            <ol class="list-unstyled">
+              <li><a href="http://www.onekp.com/samples/list.php">List of samples</a></li>
+              <li><a href="https://pods.iplantcollaborative.org/wiki/display/iptol/OneKP+Capstone+Wiki">OneKP wiki</a></li>
+              <li><a href="http://www.onekp.com">OneKP</a></li>
+            </ol>
+          </div>
+        </div><!-- /.blog-sidebar -->
+
+      </div><!-- /.row -->
+
+    </div><!-- /.container -->
+
+    <footer class="blog-footer">
+        <p>
+            <a href="http://www.plantcellwalls.org.au"><img src="images/coe-logo.png"/> ARC Centre of Excellence in Plant Cell Walls</a>
+        </p>
+    </footer>
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="../../dist/js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
+  </body>
+</html>

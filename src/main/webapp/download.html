@@ -1,0 +1,150 @@
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>About the HRGP family</title>
+
+       
+    <!-- needed to ensure carousel are correctly sized -->
+    <link href="css/mine.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="css/blog.css" rel="stylesheet">
+ 
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <!-- sidebar -->
+    <link href="css/simple-sidebar.css" rel="stylesheet">
+    <!-- Important Owl stylesheet -->
+    <link rel="stylesheet" href="css/owl.carousel.css">
+ 
+    <script src="js/jquery.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <!-- Include js plugin -->
+    <script src="js/owl.carousel.min.js"></script>
+    
+  </head>
+
+  <body>
+     
+      <script>
+     
+           function getDownloads(category) {
+              var image = document.getElementById("pipeline-image");
+              if (category === "maab_final_class" || category === "class1" || category === "class2" || category === "agpep") {
+                  image.src = "images/highlighted/pipeline-final-results.png";
+              } else if (category === "maab_known_hyp") {
+                  image.src = "images/highlighted/pipeline-known-hyp.png";
+              } else if (category === "maab_contaminant_rm") {
+                  image.src = "images/highlighted/pipeline-contaminant-removal.png";
+              } else if (category === "maab_figures") {
+                  image.src = "images/highlighted/pipeline-figures.png";
+              } else if (category === "maab_supptables") {
+                  image.src = "images/highlighted/pipeline-supptables.png";
+              } else if (category === "maab_raw_input") {
+                  image.src = "images/highlighted/pipeline-input-data.png";
+              } else if (category === "maab_category_perf") {
+                  image.src = "images/highlighted/pipeline-cluster-perf.png";
+              } else {
+                  image.src = "images/pipeline.png";
+              }
+              $.ajax({
+                    url: "services/AvailableDownloads",
+                    data: {
+                        category: category
+                    },
+                    success: function( data ) {
+                       $("#result").html( data );
+                    }
+              });
+             $.ajax({
+                 url: "services/ImageCarousel",
+                 data: {
+                     category: category
+                 },
+                 success: function(data) {
+                     $("#image-result").html(data);
+                     $("#owl-example").owlCarousel();
+                 }
+             })
+          }
+      </script>
+      
+    <div class="blog-masthead">
+      <div class="container">
+        <nav class="blog-nav">
+          <a class="blog-nav-item" href="index.html">Home</a>
+          <a class="blog-nav-item" href="hrgp.html">About HRGP</a>
+          <a class="blog-nav-item" href="methods.html">Bioinformatics</a>
+          <a class="blog-nav-item" href="phylogeny.html">Phylogeny</a>
+          <a class="blog-nav-item active" href="download.html">Download</a>
+          <a class="blog-nav-item" href="about_us.html">About us</a>
+        </nav>
+      </div>
+    </div>
+
+      <div id="wrapper">
+
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper">
+            <ol class="sidebar-nav">
+                <li class="sidebar-brand">
+                   Gene Family results
+                </li>
+                <li>
+                    <a onclick="getDownloads('class1');">Classical AGPs</a>
+                </li>
+                <li>
+                    <a onclick="getDownloads('class2');">Cross-linking extensins</a>
+                </li>
+                <li>
+                    <a onclick="getDownloads('agpep');">AG-Peptides</a>
+                </li>
+                <!-- <li>
+                    <a onclick="getDownloads('gt2');">GT2</a>
+                </li> -->
+                <li class="sidebar-brand">
+                    MAAB processing
+                </li>
+                <li><a onclick="getDownloads('maab_raw_input');">input proteins</a></li>
+                <li><a onclick="getDownloads('maab_cluster_perf');">protein clustering perf.</a></li>
+                <li><a onclick="getDownloads('maab_chimeric_hrgp');">identified chimeric HRGPs</a></li>
+                <li><a onclick="getDownloads('maab_initial_class');">classifier performance</a></li>
+                
+                <li><a onclick="getDownloads('maab_known_hyp');">known hydroxyproline hits</a></li>
+                <li><a onclick="getDownloads('maab_contaminant_rm');">contaminant removal</a></li>
+                <li><a onclick="getDownloads('maab_final_class');">final results</a></li>
+                <li><a onclick="getDownloads('maab_figures');">publication figures</a></li>
+                <li><a onclick="getDownloads('maab_supptables');">supplementary tables</a></li>
+            </ol>
+        </div>
+        <!-- /#sidebar-wrapper -->
+
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+            <div class="container-fluid">
+               
+                <div class="row">
+                    <img id="pipeline-image" class="centered" src="images/pipeline.png" alt="MAAB pipeline"/>
+                    
+                    <div class="col-lg-12">
+                        <div id="image-result">
+                        </div>
+                        <div id="result">
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /#page-content-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+  </body>
+</html>

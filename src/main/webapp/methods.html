@@ -1,0 +1,238 @@
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Computational methods</title>
+    <!-- needed to ensure carousel are correctly sized -->
+    <link href="css/mine.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="css/blog.css" rel="stylesheet">
+ 
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <!-- sidebar -->
+    <link href="css/simple-sidebar.css" rel="stylesheet">
+    
+    <script src="js/jquery.js"></script>
+    <script src="js/bootstrap.js.min"></script>
+    <script src="js/jquery.jcarousel.min.js"></script>
+  </head>
+
+  <body>
+        <div class="blog-masthead">
+          <div class="container">
+            <nav class="blog-nav">
+              <a class="blog-nav-item" href="index.html">Home</a>
+              <a class="blog-nav-item" href="hrgp.html">About HRGP</a>
+              <a class="blog-nav-item active" href="methods.html">Bioinformatics</a>
+              <a class="blog-nav-item" href="phylogeny.html">Phylogeny</a>
+              <a class="blog-nav-item" href="download.html">Download</a>
+              <a class="blog-nav-item" href="about_us.html">About us</a>
+            </nav>
+          </div>
+        </div>
+      
+      <div class="container">
+	<div class="row">
+
+            <div class="col-sm-8 blog-main">
+                <div class="blog-post">
+                    <h2 class="blog-post-title">Introduction</h2>
+
+                    <p>
+                    Established methods for computational phylogenetics were employed. We used BLAST+, Hmmer3, MUSCLE and MAFFT for generating alignments,
+                    tree construction was performed using FastTree and conversion to PhyloXML and decoration with key data was performed
+                    using the Konstanz Information Miner with the Forester library integrated into the KNIME PlantCell extension. 
+                    Visualization of trees was performed using Archaeopteryx.
+                    </p>
+
+                </div>
+            
+                <div class="blog-post">
+                    <h2 class="blog-post-title">Raw Data</h2>
+                
+                    <p>
+                    Raw data was provided to the consortium members around March 2013. By June 2013, a complete dataset had been downloaded
+                    and computational methods established. At this time, contanimants and other problems with some samples had not yet been identified.
+                    However, due to the sheer size of the data, we analysed this data and computed the trees: including, what would later become,
+                    likely contaminants. The reader is cautioned that some hits will be the result of contaminants and not a true relationship.
+                    </p>
+                    
+                    <p>
+                    The protein translations provided by the 1kp consortium were initially used to construct trees. However, for some
+                    HRGP family members, k=25 used to construct the assemblies limited the amount of some family members recovered due to perfect
+                    nucleotide repeats which a De Bruijn graph transcriptome assembler can correctly reconstruct from sequence reads. So we increased
+                    this to k=59 to ensure correct reassembly, albeit at the expense of transcript recovery rate and total transcript length. This involved
+                    reassembly of each sample using oases.
+                    </p>
+                </div>
+	
+                <div class="blog-post">
+                    <h2 class="blog-post-title">Tools employed</h2>
+            
+                    <table class="table table-striped">
+                    <tr><th>Software package</th>
+                            <th>Comments</th>
+                    </tr>
+
+                    <tr>
+                            <td><a href="http://www.phyloxml.org">Archaeopteryx</a></td>
+                            <td>Visualisation of trees</td>
+                    </tr>
+
+                    <tr>
+                            <td><a href="ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/">NCBI BLAST+</a></td>
+                            <td>Used for identification of similar sequences for numerous gene families</td>
+                    </tr>
+
+                    <tr>
+                            <td><a href="http://hmmer.janelia.org/">Hmmer v3.1b1</a></td>
+                            <td>Used for identification of similar sequences for AGPeptide and ALK families, based on models constructed from blastp hits</td>
+                    </tr>
+
+                    <tr>
+                            <td><a href="http://www.cbs.dtu.dk/services/SignalP/">SignalP v4.0</a></td>
+                            <td>Used for prediction of the presence of ER signal sequence. In some cases the "noTM" model was specified as this
+                            is perhaps better suited to some species (eg. algae) than the "best" model.</td>
+                    </tr>
+
+                    <tr>
+                            <td><a href="http://mendel.imp.ac.at/sat/gpi/gpi_server.html">BigPI</a></td>
+                            <td>Used for detection of the presence of GPI anchors in protein sequences. We obtained a local copy of the server
+                            from the authors and employed this software in large scale to identify GPI anchors in key gene families. See below.</td>
+                    </tr>
+
+                    <tr>
+                            <td><a href="http://www.ebi.ac.uk/~zerbino/oases">Oases</a></td>
+                            <td>Used to reassemble the transcripts from sequence read data from 1kp to ensure we can correctly
+                            reconstruct transcripts with high compositional bias and despite perfect nucleotide repeats.</td>
+                    </tr>
+
+                    <tr>
+                            <td><a href="http://augustus.gobics.de">Augustus</a></td>
+                            <td>Used to provide protein predictions from assembled transcriptomes eg. oases where the existing 1kp protein prediction pipeline
+                            could not be used</td>
+                    </tr>
+                    </table>
+                </div>
+	
+           
+               
+                <div class="blog-post">
+                   <h2 class="blog-post-title">Subfamily specific methods</h2>
+
+                    <h3>AG-Peptide</h3>
+
+                    <p>
+                    First, an initial set of seed sequences were identified using blastp at a stringent e-value cutoff of 1e-10. Then a multiple
+                    sequence alignment, using MUSCLE, was constructed of the full length protein sequences (only sequences with both a predicted sequence using SignalP and GPI anchor
+                    using BigPI) and then hmmer invoked using the multiple sequence alignment to identify a putative set of agpeptides. The final set of
+                    agpeptides includes blastp results and additional hmmer hits, where both SignalP and BigPI made positive predictions. Glycomotifs were
+                    also required. Nearly 3000 hits across most 1kp taxonomic clades were identified, with a few putatives in algae.
+                    </p>
+
+                    <h3>DEK</h3>
+
+                    <p>
+                    First, the SOAPDenovoTrans k=25 1kp predicted protein set was used to blastp (evalue cutoff 1e-5) the AtDEK1 gene to find putative homologs, some 4621 were
+                    identified. Next, the hits were filtered using the 1413 accepted samples (from Andrew Lonsdale's sample list) to reduce the putatives to 4561: the
+                    other hits have been rejected for various reasons relating to the available sample description.  As some sequences will have multiple alignments
+                    to AtDEK1 we next filter this case to reduce the number of hits to 4461 sequences: of these 2178 have calpain domains according to
+                    rpsblast v2.2.25 (evalue cutoff 1e-3). Note that we do not filter hits based on the presence of calpain domains at this time.
+                    </p>
+
+                    <h3>FLA</h3>
+
+                    <p>
+                    First, the SOAPDenovoTrans k=25 1kp predicted protein set was rpsblast'ed using v2.2.25 (evalue cutoff 1e-2) to obtain a list of likely-fasciclin
+                    domain containing predicted proteins. Only hits to one the following NCBI CDD PSSM id's were accepted: 225214, 214719 or 217054. Next computation
+                    of compositionally biased proline-rich regions (PRR) was carried out and a sequence accepted if <b>either</b> of the following conditions is satisfied:</p>
+                    <ul>
+                            <li>A sequence was accepted if it was considered to contain a PRR and a likely fasciclin domain from rpsblast</li>
+                            <li>A sequences was accepted if it contained at least 5 glycomotifs (cutoff determined empirically) and a likely fasciclin domain</li>
+                    </ul>
+                    At this time, 14270 sequences from the predicted protein set were acceptable. This was then refined by AndrewL's QC sample list down to 13995 as some
+                    sample descriptions are inadequate for further use. PRR rich regions in polypeptide sequences are identified to the following criteria:
+                    <ol>
+                    <li>A PRR is commenced if any of the following are satisfied: <br/>
+                    (1) %PAST is &gt;= 70 with proline at least two of first eight residues (20% thereafter for proline)<br/>
+                    (2) %PSYK is &gt;= 70 with proline as per (1) <br/>
+                    (3) the %PVK is &gt;= 70 with proline as per (1) <br/>
+                    with a window size of eight amino acids</li>
+
+                    <li>A PRR is extended by one AA (towards the C-terminal end of the polypeptide) provided any of the above composition criteria are maintained as the window
+                    is extended towards the C-terminal. As expected, partial sequence can impact this algorithm</li>
+                    </ol>
+
+                    <h3>P4H</h3>
+
+                    <p>
+                        Putative P4H genes were assembled from public data sources via three different methods:</p>
+                    <ol>
+                            <li>A list of genes from MonikaD, similar sequences were obtained using blastp</li>
+                            <li>A list of genes from CarolynS, similar sequences were obtained using blastp</li>
+                            <li>NCBI RPSBLAST+ (v2.2.25) looking for hit from NCBI CDD PSSM id #222280 or #217403. RPSBLAST
+                            hits were only accepted if also found via either MonikaD or CarolynS blastp run.</li>
+                    </ol>
+                    The resulting putative P4H genes totalled 11533 1kp predicted protein sequences.
+
+                    <h3>Phospholipase D (PLD)</h3>
+
+                    <p>
+                    First we begin with the SOAPDenovoTrans k=25 protein predictions, then identify those containing NCBI CDD PSSM ID#216022 (ncbi rpsblast+ v2.2.25 evalue
+                    cutoff 1e-5). There were 12480 hits. Next SignalP v4 is used (best neural network) and those without predicted signal sequence excluded, leaving 10218.
+                    Next we search for the presence of HxKx{4}D and NxKx{4}D motifs and delete those without a suitable motif: 10154 sequences survive this step. 
+                    To keep alignment quality high, we remove short partial sequences (&lt;200AA) leaving 8553 sequences. After removing hits to poorly documented sequences
+                    using AndrewL's QC'ed sample list we have 8392 remaining for phylogeny reconstruction.
+                    </p>
+
+                    <h3>GSL</h3>
+
+                    <p>
+                    Arabidopsis genes (AtGSL1 thru AtGSL12) were used as seed sequences for NCBI BLAST+ v2.2.25 looking for GSL
+                    genes in 1kp (evalue cutoff 1e-3).  Hits were rejected if the alignment length was &lt; 30% of the query sequence length.
+                    Only 81 species had no suitable hits from the 1kp data as at June 2013. A total of 27814 sequences were identified
+                    as likely GSL's (comprising hits in 23 clades and 146 1kp taxonomic orders).
+                    </p>
+                    
+                    <h3>ALK</h3>
+                    <p>
+                    Given a multiple sequence alignment from John Humphries (johnh@unimelb.edu.au), 
+                    hmmsearch (part of the hmmer package, v3) was employed to identify similar sequences. A total of 2115 hits to the model 
+                    protein sequences were found. This dataset is pending review and is not currently available.
+                    </p>
+
+
+                    <h3>MUR3</h3>
+                    <p>
+                    A hunt for homologs to AtMUR3 was conducted. NCBI BLASTP (v2.2.5, evalue cutoff 1e-3) was used to identify
+                    homologs from 1kp. A total of 8821 similar sequences were identified, from 21 taxonomic clades within 1kp. This dataset is pending
+                    review and is not currently available.
+                    </p>
+                 </div>
+                
+                <div class="blog-post">
+                    <h3>Acknowledgements</h3>
+                    <p>
+                    The huge collective effort of the authors for the above software packages is wonderful and it has been a delight to use
+                    these projects. Demanding, but delightful none-the-less. A huge thankyou to all of you who make larger-scale work possible in a timely fashion.
+                    </p>
+                </div>
+
+            </div>  <!-- blog-main -->
+        </div>
+      </div> <!-- container -->
+      
+        <footer class="blog-footer">
+            <p>
+                <a href="http://www.plantcellwalls.org.au"><img src="images/coe-logo.png"/> ARC Centre of Excellence in Plant Cell Walls</a>
+            </p>
+        </footer>
+   </body>
+</html>

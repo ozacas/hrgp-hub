@@ -1,0 +1,131 @@
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>About the HRGP family</title>
+
+   <!-- jsphylosvg support -- see jsphylosvg.com for details -->
+    <script type="text/javascript" src="js/raphael-min.js"></script>
+    <script type="text/javascript" src="js/jsphylosvg-min.js"></script>
+
+    <!-- needed to ensure carousel are correctly sized -->
+    <link href="css/mine.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="css/blog.css" rel="stylesheet">
+ 
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <!-- sidebar -->
+    <link href="css/simple-sidebar.css" rel="stylesheet">
+    
+    
+    <script src="js/jquery.js"></script>
+    <script src="js/bootstrap.js.min"></script>
+    <script src="js/jquery.jcarousel.min.js"></script>
+    
+  </head>
+
+  <body>
+     <div class="blog-masthead">
+      <div class="container">
+        <nav class="blog-nav">
+          <a class="blog-nav-item" href="index.html">Home</a>
+          <a class="blog-nav-item" href="hrgp.html">About HRGP</a>
+          <a class="blog-nav-item" href="methods.html">Bioinformatics</a>
+          <a class="blog-nav-item active" href="phylogeny.html">Phylogeny</a>
+          <a class="blog-nav-item" href="download.html">Download</a>
+          <a class="blog-nav-item" href="about_us.html">About us</a>
+        </nav>
+      </div>
+    </div>
+
+       <script type="text/javascript">
+          function addTreesForAvailableClasses(taxonomic_order) {
+             $("#canvas-class1").empty();
+             $("#canvas-class2").empty();
+             $("#label-class1").empty();
+             $("#label-class2").empty();
+             doTree(taxonomic_order, "class1");
+             doTree(taxonomic_order, "class2");
+          }
+          
+          function doTree(taxonomic_order, hrgp_class) {
+             $(document).ready(function(){
+                  $.ajax({
+                    url: "services/TreeDownload",
+                    data: {
+                        torder: taxonomic_order,
+                        hclass: hrgp_class
+                    },
+                    success: function( data ) {
+                      var dataObject = {
+                            phyloxml: data,
+                            fileSource: true
+                        };     
+                        var dom_obj = "canvas-"+hrgp_class;
+                        var lbl_obj = "#label-"+hrgp_class;
+                        phylocanvas = new Smits.PhyloCanvas(
+                            dataObject,
+                            dom_obj,
+                            800, 800,
+                            'circular'
+                        );
+                        $(lbl_obj).append("<h3>"+taxonomic_order+": "+hrgp_class+"</h3>");
+                    }
+              });
+            
+	    });
+          }
+       </script>
+      
+      
+      <div id="wrapper">
+
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+                <li class="sidebar-brand">
+                   By taxonomic order
+                </li>
+                <li>
+                    <a onclick="addTreesForAvailableClasses('brassicales');">Brassicales</a>
+                </li>
+               
+                <li>
+                    <a onclick="addTreesForAvailableClasses('solanales');">Solanales</a>
+                </li>
+               
+            </ul>
+        </div>
+        <!-- /#sidebar-wrapper -->
+
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+            <div class="container-fluid">
+               
+                <div class="row">
+                    
+                    <div class="col-lg-12">
+                        <div id="label-class1">
+                        </div>
+                        <div class="scrollableCanvas" id="canvas-class1">
+                        </div>
+                        <div id="label-class2">
+                        </div>
+                        <div class="scrollableCanvas" id="canvas-class2">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /#page-content-wrapper -->
+
+    </div>
+  </body>
+</html>
