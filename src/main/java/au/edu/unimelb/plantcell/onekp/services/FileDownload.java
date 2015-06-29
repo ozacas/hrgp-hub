@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.file.Files;
+import java.util.Map;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -34,13 +35,15 @@ public class FileDownload extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String fl = request.getQueryString();
+       
         if (fl.length() > 10*1024 || fl.length() < 1) {
             throw new ServletException("No file to download!");
         }
-        if (fl.startsWith("file=")) {
-            fl = fl.substring("file=".length());
+        Map<String,String> params = ServiceCore.splitQuery(fl);
+        if (!params.containsKey("file")) {
+            throw new ServletException("No file to download!");
         }
-        String decoded = new String(Base64.decode(fl), "UTF-8");
+        String decoded = new String(Base64.decode(params.get("file")), "UTF-8");
         if (!decoded.startsWith(ServiceCore.ROOT) || decoded.contains("..")) {
             throw new ServletException("Bogus file: "+decoded);
         }

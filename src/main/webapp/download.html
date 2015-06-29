@@ -12,20 +12,24 @@
        
     <!-- needed to ensure carousel are correctly sized -->
     <link href="css/mine.css" rel="stylesheet">
-
     <!-- Custom styles for this template -->
     <link href="css/blog.css" rel="stylesheet">
- 
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <!-- sidebar -->
     <link href="css/simple-sidebar.css" rel="stylesheet">
     <!-- Important Owl stylesheet -->
     <link rel="stylesheet" href="css/owl.carousel.css">
+    <!-- pretty photo styles -->
+    <link rel="stylesheet" href="css/prettyPhoto.css">
+    <!-- autocomplete stylesheet stuff -->
+    <link rel="stylesheet" href="css/jquery-ui.css" />
  
-    <script src="js/jquery.js"></script>
+    <script type="text/javascript" src="js/jquery-latest.js"></script>
+    <script type="text/javascript" src="js/jquery-ui.js"></script>
+    <script src="js/jquery.prettyPhoto.js"></script>
     <script src="js/bootstrap.min.js"></script>
-    <!-- Include js plugin -->
+    <!-- Include owl carousel plugin -->
     <script src="js/owl.carousel.min.js"></script>
     
   </head>
@@ -33,23 +37,35 @@
   <body>
      
       <script>
-     
            function getDownloads(category) {
               var image = document.getElementById("pipeline-image");
-              if (category === "maab_final_class" || category === "class1" || category === "class2" || category === "agpep") {
+              var heading= document.getElementById("result-heading");
+            
+              if (category === "maab_class" || category === "class1" || 
+                      category === "class2" || category === "agpep" || category === "maab_clustering") {
                   image.src = "images/highlighted/pipeline-final-results.png";
+                  heading.innerHTML = "Downloads for accepted HRGPs";
               } else if (category === "maab_known_hyp") {
                   image.src = "images/highlighted/pipeline-known-hyp.png";
+                  heading.innerHTML = "Downloads for identification of published hydroxyproline hits";
               } else if (category === "maab_contaminant_rm") {
                   image.src = "images/highlighted/pipeline-contaminant-removal.png";
+                  heading.innerHTML = "Contaminant removal downloads";
               } else if (category === "maab_figures") {
                   image.src = "images/highlighted/pipeline-figures.png";
+                  heading.innerHTML = "Publication figure downloads";
               } else if (category === "maab_supptables") {
                   image.src = "images/highlighted/pipeline-supptables.png";
+                  heading.innerHTML = "Supplementary table downloads";
               } else if (category === "maab_raw_input") {
                   image.src = "images/highlighted/pipeline-input-data.png";
-              } else if (category === "maab_category_perf") {
+                  heading.innerHTML = "Raw, compositionally-biased input data";
+              } else if (category === "maab_chimeric_hrgp") {
+                  image.src = "images/highlighted/pipeline-chimeric-hrgp.png";
+                  heading.innerHTML = "Chimeric HRGPs downloads";
+              } else if (category === "maab_input_redundancy_removal") {
                   image.src = "images/highlighted/pipeline-cluster-perf.png";
+                  heading.innerHTML = "Input data clustering performance";
               } else {
                   image.src = "images/pipeline.png";
               }
@@ -59,7 +75,7 @@
                         category: category
                     },
                     success: function( data ) {
-                       $("#result").html( data );
+                       $( "#result" ).html( data );
                     }
               });
              $.ajax({
@@ -68,10 +84,29 @@
                      category: category
                  },
                  success: function(data) {
-                     $("#image-result").html(data);
-                     $("#owl-example").owlCarousel();
+                     $( "#image-result" ).html(data);
+                     $( "#owl-example" ).owlCarousel({ autoPlay: 5000, auto_resize: true });
+                     $( "a[rel^='prettyPhoto']" ).prettyPhoto();
                  }
-             })
+             });
+          }
+          
+          function auto1KPDataComplete() {
+              var str = document.getElementById("searchterms").value.trim();
+              var is_protein = document.getElementById("protein-radio").checked;
+              if (str.length > 2) {
+                $.ajax({
+                   url: "services/auto1KPDataComplete",
+                   type: "GET",
+                   data: {
+                       str: str,
+                       isprotein: is_protein
+                   },
+                   dataType: "json",
+                   success: function(suggestions) {      // application/json returned by server so dataType takes care of the parse...
+                       $( "#searchterms" ).bind().autocomplete({source: suggestions});
+                  }});
+                }
           }
       </script>
       
@@ -111,16 +146,17 @@
                 <li class="sidebar-brand">
                     MAAB processing
                 </li>
-                <li><a onclick="getDownloads('maab_raw_input');">input proteins</a></li>
-                <li><a onclick="getDownloads('maab_cluster_perf');">protein clustering perf.</a></li>
-                <li><a onclick="getDownloads('maab_chimeric_hrgp');">identified chimeric HRGPs</a></li>
-                <li><a onclick="getDownloads('maab_initial_class');">classifier performance</a></li>
+                <li><a onclick="getDownloads('maab_raw_input');">1. Input data</a></li>
+                <li><a onclick="getDownloads('maab_input_redundancy_removal');">2. Per sample clustering perf.</a></li>
+                <li><a onclick="getDownloads('maab_chimeric_hrgp');">3. Chimeric HRGPs</a></li>
                 
-                <li><a onclick="getDownloads('maab_known_hyp');">known hydroxyproline hits</a></li>
-                <li><a onclick="getDownloads('maab_contaminant_rm');">contaminant removal</a></li>
-                <li><a onclick="getDownloads('maab_final_class');">final results</a></li>
-                <li><a onclick="getDownloads('maab_figures');">publication figures</a></li>
-                <li><a onclick="getDownloads('maab_supptables');">supplementary tables</a></li>
+                <li><a onclick="getDownloads('maab_class');">4. MAAB classification</a></li>
+                <li><a onclick="getDownloads('maab_known_hyp');">5. Known hydroxyproline hits</a></li>
+                <li><a onclick="getDownloads('maab_contaminant_rm');">6. Contaminant removal</a></li>
+                
+                <li><a onclick="getDownloads('maab_figures');">7. Publication figures</a></li>
+                <li><a onclick="getDownloads('maab_supptables');">8. Supplementary tables</a></li>
+                <li><a onclick="getDownloads('maab_clustering');">9. Clustering of final results</a></li>
             </ol>
         </div>
         <!-- /#sidebar-wrapper -->
@@ -132,13 +168,39 @@
                 <div class="row">
                     <img id="pipeline-image" class="centered" src="images/pipeline.png" alt="MAAB pipeline"/>
                     
-                    <div class="col-lg-12">
+                    <div class="col-lg-8">
+                
+                        <h3 id="result-heading"> </h3>
+                        
                         <div id="image-result">
                         </div>
+                        
                         <div id="result">
-                            
                         </div>
                     </div>
+                    
+                    <div class="col-sm-3 col-sm-offset-1">
+                        <div class="sidebar-module sidebar-module-inset">
+                            <h4>Assembly data</h4>
+                            <p>Find data by 1kp sample code (four letters), species and dataset assembly method (k-mer primarily).</p>
+                       
+                            <form action="services/data" id="data-search">
+                                <fieldset>
+                                    <label for="searchterms">Find</label>
+                                    <div class="ui-autocomplete">
+                                    <input type="text" id="searchterms" placeholder="order:brassicales" 
+                                            autocomplete="on" onkeyup="auto1KPDataComplete();" >
+                                    <input type="submit" value="Go">
+                                    </div>
+                                </fieldset>
+                                <fieldset>
+                                     <input id="protein-radio" type="radio" name="type" value="protein" checked>Proteins
+                                     <br/>
+                                     <input type="radio" name="type" value="transcript">Transcript
+                                </fieldset>
+                            </form>
+                        </div>
+                    </div><!-- col-sm-3 -->
                 </div>
             </div>
         </div>

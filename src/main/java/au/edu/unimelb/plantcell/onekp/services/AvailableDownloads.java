@@ -53,14 +53,13 @@ public class AvailableDownloads extends HttpServlet {
                 }
                 String name = pathname.getName().toLowerCase();
                 return (name.endsWith(".png") || name.endsWith(".xls") || 
-                        name.endsWith(".eps") || name.endsWith(".zip"));
+                        name.endsWith(".eps") || name.endsWith(".zip") || name.endsWith(".fasta"));
             }
             
         }, tv);
         try (PrintWriter out = response.getWriter()) {
             response.setContentType("text/plain");
             
-            out.println("<h1>Downloadable results for "+q+"</h1>");
             out.println(tv.toString());
         }
     }

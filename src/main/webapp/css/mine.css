@@ -16,13 +16,14 @@ img#main {
 
 .carousel {
     height: 100px;
-    width: 80%;
 }
 
 img.centered {
     display: block;
     margin-left: auto;
-    margin-right: auto 
+    margin-right: auto;
+    margin-top: 20px;
+    margin-bottom: 20px
 }
 
 img.maabCarouselImg, li.maabCarouselImg {
@@ -148,3 +149,16 @@ img.maabCarouselImg, li.maabCarouselImg {
     -moz-box-shadow: 0 0 2px #F0EFE7;
     box-shadow: 0 0 2px #F0EFE7;
 }
+
+#data-search fieldset {
+  margin: 0 0 10px 0;
+}
+#data-search label {
+  display: block;
+  font-weight: bold;
+  line-height: 1.4;
+  color: #666;
+  color: rgba(0, 0, 0, 0.6);
+  text-shadow: 0 1px 1px #fff;
+}
+

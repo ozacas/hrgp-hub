@@ -17,6 +17,10 @@
         <servlet-name>ImageCarousel</servlet-name>
         <servlet-class>au.edu.unimelb.plantcell.onekp.services.ImageCarousel</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>auto1KPDataComplete</servlet-name>
+        <servlet-class>au.edu.unimelb.plantcell.onekp.services.auto1KPDataComplete</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>AvailableDownloads</servlet-name>
         <url-pattern>/services/AvailableDownloads</url-pattern>
@@ -32,5 +36,9 @@
     <servlet-mapping>
         <servlet-name>ImageCarousel</servlet-name>
         <url-pattern>/services/ImageCarousel</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>auto1KPDataComplete</servlet-name>
+        <url-pattern>/services/auto1KPDataComplete</url-pattern>
     </servlet-mapping>
 </web-app>

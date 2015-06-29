@@ -5,13 +5,14 @@
  */
 package au.edu.unimelb.plantcell.onekp.services;
 
-import java.io.File;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-import java.nio.file.Files;
+import java.io.PrintWriter;
+import java.util.HashMap;
 import java.util.Map;
+import javax.json.Json;
+import javax.json.JsonArray;
+import javax.json.JsonBuilderFactory;
+import javax.json.JsonWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -21,8 +22,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author acassin
  */
-public class TreeDownload extends HttpServlet {
-    
+public class auto1KPDataComplete extends HttpServlet {
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -34,34 +35,30 @@ public class TreeDownload extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
        
-        Map<String,String> params = ServiceCore.splitQuery(request.getQueryString());
+        String q = request.getQueryString();
+        Map<String,String> params = ServiceCore.splitQuery(q);
         
-        if (!(params.containsKey("hclass") && params.containsKey("torder"))) {
-            throw new ServletException("HRGP class and taxonomic order expected!");
+        if (!params.containsKey("str")) {
+            throw new ServletException("No search terms!");
         }
-        String hclass = params.get("hclass");
-        String torder = params.get("torder");
-        if (!hclass.matches("^class\\d+$") || !torder.matches("^\\w+$")) {
-            throw new ServletException("Invalid HRGP class and/or taxonomic order");
-        }
-        File root = new File(ServiceCore.ROOT);
-        File phylogeny_root = new File(root, "phylogeny");
-        if (!phylogeny_root.isDirectory()) {
-            throw new ServletException("No phylogeny directory: "+phylogeny_root.getAbsolutePath());
-        }
-        File class_root = new File(phylogeny_root, hclass);
-        if (!class_root.isDirectory()) {
-            throw new ServletException("No folder: "+class_root.getAbsolutePath());
-        }
-        File phyloxml = new File(class_root, torder.toLowerCase()+".phyloxml");
-        if (!phyloxml.isFile() || !phyloxml.canRead()) {
-            throw new ServletException("Cannot read tree: "+phyloxml.getAbsolutePath());
-        }
-        try (OutputStream out = response.getOutputStream()) {
-            response.setContentType("application/xml");
-            Files.copy(phyloxml.toPath(), out);
+        
+       JsonBuilderFactory factory = Json.createBuilderFactory(new HashMap<String,String>());
+       JsonArray value = factory.createArrayBuilder()
+     .add(factory.createObjectBuilder()
+         .add("id", "1")
+         .add("label", "test1")
+         .add("value", "test1"))
+     .add(factory.createObjectBuilder()
+         .add("id", "2")
+         .add("label", "test2")
+         .add("value", "test2"))
+     .build();
+ 
+        response.setContentType("application/json");
+        try (PrintWriter out = response.getWriter()) {
+            JsonWriter w = Json.createWriter(out);
+            w.write(value);
         }
     }
 
@@ -91,7 +88,7 @@ public class TreeDownload extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        throw new ServletException("POST not supported!");
     }
 
     /**
@@ -101,11 +98,7 @@ public class TreeDownload extends HttpServlet {
      */
     @Override
     public String getServletInfo() {
-        return "Short description";
+        return "enables autocompletion based on partial user input when obtaining 1KP data via the search form";
     }// </editor-fold>
-
-    private void throwIllegal(final String s) throws ServletException {
-        throw new ServletException("Illegal tree specification: Order-Class expected! "+s);
-    }
 
 }
