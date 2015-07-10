@@ -53,6 +53,8 @@ public class ServiceCore {
             root = new File(root, "putative-chimeric-hrgp");
         } else if (q.equals("maab_clustering")) {
             root = new File(root, "clustering-analyses");
+        } else if (q.equals("maab_saved_results")) {
+            root = new File(root, "final-saved-results");
         } else {
             throw new ServletException("Unknown class of downloads: "+q);
         }

@@ -52,8 +52,10 @@ public class AvailableDownloads extends HttpServlet {
                     return false;
                 }
                 String name = pathname.getName().toLowerCase();
-                return (name.endsWith(".png") || name.endsWith(".xls") || 
-                        name.endsWith(".eps") || name.endsWith(".zip") || name.endsWith(".fasta"));
+                return (name.endsWith(".png") || name.endsWith(".xls") || name.endsWith(".table") ||
+                        name.endsWith(".eps") || name.endsWith(".zip") || name.endsWith(".fasta") ||
+                        name.endsWith(".csv") || name.endsWith(".gz") || name.endsWith(".jpg") ||
+                        name.endsWith(".fa"));
             }
             
         }, tv);

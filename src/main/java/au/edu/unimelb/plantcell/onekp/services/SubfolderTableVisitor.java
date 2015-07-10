@@ -60,7 +60,6 @@ public class SubfolderTableVisitor implements FileVisitor {
             ArrayList<File> other_files = new ArrayList<>();
             separateImagesFromOtherFiles(files, image_files, other_files);
             
-            sb.append("<h3>");
             String suffix = folder.getAbsolutePath();
             if (suffix.startsWith(prefix)) {
                 suffix = suffix.substring(prefix.length());
@@ -68,10 +67,18 @@ public class SubfolderTableVisitor implements FileVisitor {
                     suffix = suffix.substring(1);
                 }
             }
-            sb.append(StringEscapeUtils.escapeHtml4(suffix));
-            sb.append("</h3>");
+            String heading = StringEscapeUtils.escapeHtml4(suffix);
+            if (heading.length() > 0) {
+                 sb.append("<h3>");
+                 sb.append(heading); 
+                 sb.append("</h3>");
+            } else {
+                 if (dir2files.keySet().size() > 1) {
+                    sb.append("<h3>/</h3>");
+                 }
+            }
            
-            sb.append("<table class=\"table table-striped\">");
+            sb.append("<table class=\"table table-condensed\">");
             sb.append("<tr>");
             sb.append("<th>Name</th>");
             sb.append("<th>Size</th>");

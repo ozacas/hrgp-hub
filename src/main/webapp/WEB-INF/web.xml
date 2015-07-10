@@ -21,6 +21,10 @@
         <servlet-name>auto1KPDataComplete</servlet-name>
         <servlet-class>au.edu.unimelb.plantcell.onekp.services.auto1KPDataComplete</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AssemblyDownload</servlet-name>
+        <servlet-class>au.edu.unimelb.plantcell.onekp.services.AssemblyDownload</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>AvailableDownloads</servlet-name>
         <url-pattern>/services/AvailableDownloads</url-pattern>
@@ -40,5 +44,9 @@
     <servlet-mapping>
         <servlet-name>auto1KPDataComplete</servlet-name>
         <url-pattern>/services/auto1KPDataComplete</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AssemblyDownload</servlet-name>
+        <url-pattern>/services/data</url-pattern>
     </servlet-mapping>
 </web-app>

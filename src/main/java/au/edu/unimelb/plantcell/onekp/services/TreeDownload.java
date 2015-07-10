@@ -8,8 +8,6 @@ package au.edu.unimelb.plantcell.onekp.services;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.nio.file.Files;
 import java.util.Map;
 import javax.servlet.ServletException;
@@ -33,9 +31,7 @@ public class TreeDownload extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-       
+            throws ServletException, IOException {       
         Map<String,String> params = ServiceCore.splitQuery(request.getQueryString());
         
         if (!(params.containsKey("hclass") && params.containsKey("torder"))) {
@@ -43,6 +39,11 @@ public class TreeDownload extends HttpServlet {
         }
         String hclass = params.get("hclass");
         String torder = params.get("torder");
+        boolean want_file = params.containsKey("file") && "1".equals(params.get("file"));
+        
+        if (want_file) {
+            response.setHeader("Content-Disposition", "attachment; filename=\""+suggestedFilename(params)+"\"");
+        }
         if (!hclass.matches("^class\\d+$") || !torder.matches("^\\w+$")) {
             throw new ServletException("Invalid HRGP class and/or taxonomic order");
         }
@@ -106,6 +107,17 @@ public class TreeDownload extends HttpServlet {
 
     private void throwIllegal(final String s) throws ServletException {
         throw new ServletException("Illegal tree specification: Order-Class expected! "+s);
+    }
+
+    private String suggestedFilename(Map<String, String> params) {
+        assert(params != null);
+        
+        String hrgp_class = params.get("hclass");
+        String taxonomic_order = params.get("torder");
+        if (hrgp_class != null && taxonomic_order != null) {
+            return taxonomic_order + "." + hrgp_class +".phyloxml";
+        }
+        return "unknown.phyloxml";
     }
 
 }

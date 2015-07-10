@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -41,10 +42,15 @@
               var image = document.getElementById("pipeline-image");
               var heading= document.getElementById("result-heading");
             
-              if (category === "maab_class" || category === "class1" || 
-                      category === "class2" || category === "agpep" || category === "maab_clustering") {
+              if (category === "maab_class") {
+                  image.src = "images/highlighted/pipeline-maab-classification.png";
+                  heading.innerHTML = "MAAB classification results";
+              } else if (category === "maab_saved_results" || category === "class1" || category === "class2" || category === "agpep") {
                   image.src = "images/highlighted/pipeline-final-results.png";
-                  heading.innerHTML = "Downloads for accepted HRGPs";
+                  heading.innerHTML = "HRGP hits excluding contaminants";
+              } else if (category === "maab_clustering") {
+                  image.src = "images/highlighted/pipeline-final-results.png";
+                  heading.innerHTML = "Hit clustering (using usearch/cdhit) downloads";
               } else if (category === "maab_known_hyp") {
                   image.src = "images/highlighted/pipeline-known-hyp.png";
                   heading.innerHTML = "Downloads for identification of published hydroxyproline hits";
@@ -93,9 +99,18 @@
           
           function auto1KPDataComplete() {
               var str = document.getElementById("searchterms").value.trim();
-              var is_protein = document.getElementById("protein-radio").checked;
+              var data_type = document.getElementById("protein-radio").checked ? "protein" : "transcript";
               if (str.length > 2) {
-                $.ajax({
+                  $("#searchterms").autocomplete({
+                     source: function (request, response) {
+                        // Make AJAX call, but don't filter the results from the server.
+                        $.get("services/auto1KPDataComplete?str="+encodeURIComponent(str)+"&type="+encodeURIComponent(data_type), function (results) {
+                            response(results);
+                        });
+                        }
+                  });
+                  
+                /*$.ajax({
                    url: "services/auto1KPDataComplete",
                    type: "GET",
                    data: {
@@ -105,7 +120,7 @@
                    dataType: "json",
                    success: function(suggestions) {      // application/json returned by server so dataType takes care of the parse...
                        $( "#searchterms" ).bind().autocomplete({source: suggestions});
-                  }});
+                  }});*/
                 }
           }
       </script>
@@ -156,7 +171,8 @@
                 
                 <li><a onclick="getDownloads('maab_figures');">7. Publication figures</a></li>
                 <li><a onclick="getDownloads('maab_supptables');">8. Supplementary tables</a></li>
-                <li><a onclick="getDownloads('maab_clustering');">9. Clustering of final results</a></li>
+                <li><a onclick="getDownloads('maab_saved_results');">9. Final results</a></li>
+                <li><a onclick="getDownloads('maab_clustering');">10. Final results - clustering</a></li>
             </ol>
         </div>
         <!-- /#sidebar-wrapper -->
@@ -180,25 +196,36 @@
                     </div>
                     
                     <div class="col-sm-3 col-sm-offset-1">
+                        <div class="ui-autocomplete">
                         <div class="sidebar-module sidebar-module-inset">
                             <h4>Assembly data</h4>
                             <p>Find data by 1kp sample code (four letters), species and dataset assembly method (k-mer primarily).</p>
-                       
+                      
                             <form action="services/data" id="data-search">
                                 <fieldset>
                                     <label for="searchterms">Find</label>
-                                    <div class="ui-autocomplete">
-                                    <input type="text" id="searchterms" placeholder="order:brassicales" 
-                                            autocomplete="on" onkeyup="auto1KPDataComplete();" >
+                               
+                                    <input type="text" id="searchterms" name="q" 
+                                           autocomplete="on" onkeyup="auto1KPDataComplete();" placeholder="order:brassicales">
                                     <input type="submit" value="Go">
-                                    </div>
-                                </fieldset>
-                                <fieldset>
-                                     <input id="protein-radio" type="radio" name="type" value="protein" checked>Proteins
-                                     <br/>
-                                     <input type="radio" name="type" value="transcript">Transcript
+                                    <br/>
+                                     
+                                    <input id="protein-radio" type="radio" name="type" value="protein" checked>Protein&nbsp;
+                                    <input type="radio" name="type" value="transcript">Transcript
+                                    <br/>
+                                    <label for="assembly-method">Assembly method</label>
+                                    <select id="assembly-method" name="assembly-method">
+                                        <option>OneKP: k=25 contigs</option>
+                                        <option>OneKP: k=25 scaffolds</option>
+                                        <option>Oases k=39 scaffolds</option>
+                                        <option>Oases k=49 scaffolds</option>
+                                        <option>Oases k=59 scaffolds</option>
+                                        <option>Oases k=69 scaffolds</option>
+                                    </select>
+                                    
                                 </fieldset>
                             </form>
+                            </div>
                         </div>
                     </div><!-- col-sm-3 -->
                 </div>
