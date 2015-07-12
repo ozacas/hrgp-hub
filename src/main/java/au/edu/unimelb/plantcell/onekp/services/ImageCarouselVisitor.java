@@ -83,17 +83,16 @@ class ImageCarouselVisitor implements FileVisitor {
                 String uri = "services/FileDownload?file="+BootstrapDownloadTableVisitor.encodeFile(f);
                 try {
                     Dimension d = getImageDimension(f);
-                    sb.append("<a href=\"")
+                        sb.append("<a href=\"")
                             .append(uri+"&width="+d.width+"&height="+d.height)
-                            //.append(uri)
-                            .append("\" rel=\"prettyPhoto\" title=\"")
+                            .append("\" data-featherlight=\"image\" title=\"")
                             .append(title)
                             .append("\">");
                         sb.append("<img class=\"carousel\" alt=\"").append(title)
                             .append("\" src=\"")
                           .append(uri)
                           .append("\">");
-                    sb.append("</a>");
+                        sb.append("</a>");
                 } catch (IOException ioe) {
                     // ioe is thrown if the image dimensions cant be determined, so we just ignore...
                 }

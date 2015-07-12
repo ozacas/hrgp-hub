@@ -21,22 +21,21 @@
     <link href="css/simple-sidebar.css" rel="stylesheet">
     <!-- Important Owl stylesheet -->
     <link rel="stylesheet" href="css/owl.carousel.css">
-    <!-- pretty photo styles -->
-    <link rel="stylesheet" href="css/prettyPhoto.css">
     <!-- autocomplete stylesheet stuff -->
     <link rel="stylesheet" href="css/jquery-ui.css" />
- 
+    <link rel="stylesheet" href="js/featherlight.min.css" type="text/css" />
+
     <script type="text/javascript" src="js/jquery-latest.js"></script>
     <script type="text/javascript" src="js/jquery-ui.js"></script>
-    <script src="js/jquery.prettyPhoto.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <!-- Include owl carousel plugin -->
     <script src="js/owl.carousel.min.js"></script>
+    <!-- featherlight lightbox jquery plugin -->
+    <script src="js/featherlight.min.js" type="text/javascript" charset="utf-8"></script>
     
   </head>
 
   <body>
-     
       <script>
            function getDownloads(category) {
               var image = document.getElementById("pipeline-image");
@@ -92,7 +91,7 @@
                  success: function(data) {
                      $( "#image-result" ).html(data);
                      $( "#owl-example" ).owlCarousel({ autoPlay: 5000, auto_resize: true });
-                     $( "a[rel^='prettyPhoto']" ).prettyPhoto();
+                     $('.a').featherlight();
                  }
              });
           }
@@ -110,17 +109,6 @@
                         }
                   });
                   
-                /*$.ajax({
-                   url: "services/auto1KPDataComplete",
-                   type: "GET",
-                   data: {
-                       str: str,
-                       isprotein: is_protein
-                   },
-                   dataType: "json",
-                   success: function(suggestions) {      // application/json returned by server so dataType takes care of the parse...
-                       $( "#searchterms" ).bind().autocomplete({source: suggestions});
-                  }});*/
                 }
           }
       </script>
@@ -182,7 +170,29 @@
             <div class="container-fluid">
                
                 <div class="row">
-                    <img id="pipeline-image" class="centered" src="images/pipeline.png" alt="MAAB pipeline"/>
+                    <img id="pipeline-image" class="centered" src="images/pipeline.png" alt="MAAB pipeline" usemap="#pipelinemap"/>
+                    
+                    <map name="pipelinemap">
+                        <area shape="rect" coords="3,44,105,115" 
+                              href="javascript:getDownloads('maab_raw_input');" alt="raw data">
+                        <area shape="rect" coords="145,44,250,115"
+                              href="javascript:getDownloads('maab_input_redundancy_removal');" alt="cluster performance">
+                        <area shape="rect" coords="280,44,388,115"
+                              href="javascript:getDownloads('maab_chimeric_hrgp');" alt="chimeric hrgp">
+                        <area shape="rect" coords="422,44,525,115"
+                              href="javascript:getDownloads('maab_class');" alt="maab classification">
+                        <area shape="rect" coords="565,44,668,115"
+                              href="javascript:getDownloads('maab_known_hyp');" alt="known hydroxyproline hits">
+                        
+                        <area shape="rect" coords="703,44,805,115"
+                              href="javascript:getDownloads('maab_contaminant_rm');" alt="contaminated samples">
+                        <area shape="rect" coords="843,4,945,75"
+                              href="javascript:getDownloads('maab_supptables');" alt="supplementary tables">
+                        <area shape="rect" coords="843,92,945,167"
+                              href="javascript:getDownloads('maab_figures');" alt="maab figures">
+                        <area shape="rect" coords="815,35,838,125"
+                              href="javascript:getDownloads('maab_saved_results');" alt="final saved results">
+                    </map>
                     
                     <div class="col-lg-8">
                 
@@ -235,5 +245,5 @@
 
     </div>
     <!-- /#wrapper -->
-  </body>
+    </body>
 </html>

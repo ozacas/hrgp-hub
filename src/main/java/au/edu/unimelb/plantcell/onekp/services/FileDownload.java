@@ -5,11 +5,11 @@
  */
 package au.edu.unimelb.plantcell.onekp.services;
 
-import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.file.Files;
+import java.util.Base64;
 import java.util.Map;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -43,7 +43,7 @@ public class FileDownload extends HttpServlet {
         if (!params.containsKey("file")) {
             throw new ServletException("No file to download!");
         }
-        String decoded = new String(Base64.decode(params.get("file")), "UTF-8");
+        String decoded = new String(Base64.getDecoder().decode(params.get("file")), "UTF-8");
         if (!decoded.startsWith(ServiceCore.ROOT) || decoded.contains("..")) {
             throw new ServletException("Bogus file: "+decoded);
         }
