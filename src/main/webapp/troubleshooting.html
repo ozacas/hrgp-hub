@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Troubleshooting</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="css/blog.css" rel="stylesheet">
+  </head>
+
+  <body>
+
+    <div class="blog-masthead">
+      <div class="container">
+        <nav class="blog-nav">
+          <a class="blog-nav-item" href="index.html">Home</a>
+          <a class="blog-nav-item" href="hrgp.html">About HRGP</a>
+          <a class="blog-nav-item" href="methods.html">Bioinformatics</a>
+          <a class="blog-nav-item active" href="phylogeny.html">Phylogeny</a>
+          <a class="blog-nav-item" href="download.html">Download</a>
+          <a class="blog-nav-item" href="about_us.html">About us</a>
+        </nav>
+      </div>
+    </div>
+
+    <div class="container">
+
+      <div class="blog-header">
+        <p class="lead blog-description">
+            Troubleshooting Phylogeny
+        </p>
+      </div>
+
+      <div class="row">
+
+        <div class="col-sm-8 blog-main">
+
+          <div class="blog-post">
+            <h2 class="blog-post-title">Applet View</h2>
+            
+            <p>
+                The phylogeny page is written to the latest web technology. Some old browsers may not work with it.
+                But, since many new browsers are free - why not use one? ;-) Hopefully the problems are not
+                insurmountable and take just a few moments to sort out.
+            </p>
+            
+            <h3>First thing: getting the right software</h3>
+            
+            <p>You must use a modern web browser. I use firefox v39.0, but probably chrome, safari, opera or recent Internet
+            Explorer is ok too. If you dont have a suitable browser, you'll need to download and install one.</p>
+            
+            <p>
+                To view the tree you must have <b>java 1.7 (aka. java7)</b> or later installed on your computer. If you dont have it installed,
+                please visit <a href="http://www.java.com">Java.com</a> and download and install it from there.
+                If you have old java versions already installed on your computer, you may wish to delete them.
+            </p>
+            
+            <h3>Next: adding a site exception</h3>
+            
+            <p>
+                If you just run any software, you can destroy your computer. Java is no exception - it carefully
+                restricts what websites that want to use java on your computer can do. But to display the tree, we
+                need to add the website as an exception to the rule. If you dont want to do this, thats fine, but
+                applet view wont work without it.
+            </p>
+            
+            <p>
+                To change the site exception list, you'll need to locate the Java Control Panel. For windows,
+                this can be found at Control Panel -> Java. Then:
+            </p>
+                <ol>
+                    <li>click on the Security tab</li>
+                    <li>click on 'edit site list'</li>
+                    <li>check the box 'enable java content in the browser'</li>
+                    <li>add an entry for 'http://services.plantcell.unimelb.edu.au/hrgp' and accept when prompted
+                        that its not secure</li>
+                    <li>click OK</li>
+                </ol>
+            <p>The end result should look like this:
+                <img src="images/troubleshooting/java-control-panel.png" alt="java control panel settings required" />
+            </p>
+            
+            <h3>Third: accept security prompts</h3>
+            
+            <p>
+                When running the tree software for the first time, your browser will ask you to confirm
+                that you want to run this software: be sure to click the 'Run' button.
+            </p>
+            
+            <h3>Fixed?</h3>
+            
+            <img src="images/troubleshooting/end-result.png" alt="what you hope to see">
+            
+            <p>To see the heatmap, be sure 'vector data' is checked on the left hand side. It also
+            helps to uncheck 'phylogram' so that the pairwise alignment heatmap for each taxa lines up.
+            Clicking on the terminal node for each taxa yields information including the protein sequence.
+            </p>
+            
+            <p>Hopefully, thats it. But there can be other problems - from firewalls to security software
+                that prevent successful tree viewing in your browser. Thats ok, just use the download button instead
+                and install <a href="https://sites.google.com/site/cmzmasek/home/software/archaeopteryx/">Archaeopteryx</a> to your computer instead.
+            </p>
+            
+          </div>
+            
+          <div class="blog-post">
+              <h2 class="blog-post-title">Download</h2>
+              
+              <p>
+                  Clicking the download button beneath a tree, will download the <a href="http://www.phyloxml.org">PhyloXML</a>
+                  version to your computer. This tree data file is produced from the Newick tree format after alignment of
+                  the gene tree. The PhyloXML format supports decoration of each taxa with additional information
+                  and it is recommended that you view the tree in <a href="https://sites.google.com/site/cmzmasek/home/software/archaeopteryx/">Archaeopteryx</a> where you can
+                  convert it to other file formats if you wish. For now, the additional information includes
+                  pairwise %similarity (including identity) of each taxa to all others in the tree and protein
+                  sequence. Other information may be added to the tree in future. To see the pairwise alignment
+                  data be sure to click "vector data" on the left hand side of the applet view.
+              </p>
+              
+              <p>
+                  The left side navigation bar lets you download a ZIP file of all the phyloxml trees as a single download
+                  for your convenience. It is a large download, that may take some time.
+              </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

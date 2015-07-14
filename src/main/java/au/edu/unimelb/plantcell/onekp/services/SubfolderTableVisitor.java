@@ -54,12 +54,12 @@ public class SubfolderTableVisitor implements FileVisitor {
         
         for (File folder : dir2files.keySet()) {
             List<File> files = dir2files.get(folder);
-            if (files.size() < 1) {
-                continue;
-            }
             ArrayList<File> other_files = new ArrayList<>();
             separateImagesFromOtherFiles(files, image_files, other_files);
             
+            if (other_files.size() < 1) {
+                continue;
+            }
             String suffix = folder.getAbsolutePath();
             if (suffix.startsWith(prefix)) {
                 suffix = suffix.substring(prefix.length());

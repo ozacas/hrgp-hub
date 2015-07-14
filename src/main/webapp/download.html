@@ -37,11 +37,36 @@
 
   <body>
       <script>
+          
+           function getMatchingDownloads() {
+               var image = document.getElementById("pipeline-image");
+               image.src = "images/pipeline.png";
+               var heading= document.getElementById("result-heading");
+               heading.innerHTML = "Search results";
+               var keywords= document.getElementById("resultterms").value;
+               $.ajax({
+                    url: "services/Search",
+                    data: {
+                        kw: keywords
+                    },
+                    success: function( data ) {
+                       $( "#image-result").empty();
+                       $( "#result" ).html( data );
+                    }
+               });
+           }
+           
            function getDownloads(category) {
               var image = document.getElementById("pipeline-image");
               var heading= document.getElementById("result-heading");
             
-              if (category === "maab_class") {
+              if (category === "publications") {
+                  image.src = "images/pipeline.png";
+                  heading.innerHTML = "Publications";
+              } else if (category === "suppmat") {
+                  image.src = "images/pipeline.png";
+                  heading.innerHTML = "Supplementary material for publications";
+              } else if (category === "maab_class") {
                   image.src = "images/highlighted/pipeline-maab-classification.png";
                   heading.innerHTML = "MAAB classification results";
               } else if (category === "maab_saved_results" || category === "class1" || category === "class2" || category === "agpep") {
@@ -132,17 +157,15 @@
         <div id="sidebar-wrapper">
             <ol class="sidebar-nav">
                 <li class="sidebar-brand">
-                   Gene Family results
+                   Handcrafted documents
                 </li>
                 <li>
-                    <a onclick="getDownloads('class1');">Classical AGPs</a>
+                    <a onclick="getDownloads('publications');">Publications</a>
                 </li>
                 <li>
-                    <a onclick="getDownloads('class2');">Cross-linking extensins</a>
+                    <a onclick="getDownloads('suppmat');">Supplementary Material</a>
                 </li>
-                <li>
-                    <a onclick="getDownloads('agpep');">AG-Peptides</a>
-                </li>
+               
                 <!-- <li>
                     <a onclick="getDownloads('gt2');">GT2</a>
                 </li> -->
@@ -236,8 +259,22 @@
                                 </fieldset>
                             </form>
                             </div>
+                            
+                            <div class="sidebar-module sidebar-module-inset">
+                                <h4>Find MAAB results</h4>
+                                <p>Find data by code (eg. AN001) or by keyword</p>
+
+                                <form action="javascript:getMatchingDownloads();" id="result-search">
+                                    <fieldset>
+                                        <input type="text" id="resultterms" name="rq">
+                                        <input type="submit" value="Go">
+                                    </fieldset>
+                                </form>
+                            </div>
                         </div>
-                    </div><!-- col-sm-3 -->
+                    
+                        
+                    </div>
                 </div>
             </div>
         </div>

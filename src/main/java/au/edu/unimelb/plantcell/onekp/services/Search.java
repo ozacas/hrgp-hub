@@ -5,10 +5,16 @@
  */
 package au.edu.unimelb.plantcell.onekp.services;
 
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.io.File;
 import java.io.FileFilter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -18,7 +24,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author acassin
  */
-public class AvailableDownloads extends HttpServlet {
+public class Search extends HttpServlet {
+    private final static Logger log = Logger.getLogger("SearchServlet");
     
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -29,37 +36,63 @@ public class AvailableDownloads extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processGET(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        String q = request.getQueryString();
-        if (q == null || q.length() < 1 || q.length() > 100) {
-            throw new ServletException("No class of downloads specified!");
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {        
+        File root = new File(ServiceCore.ROOT);
+        if (!root.exists() || !root.isDirectory()) {
+            throw new ServletException("No HRGP data folder: "+root.getAbsolutePath());
         }
-        if (q.startsWith("category=")) {
-            q = q.substring("category=".length());
+        final Map<String,String> params = ServiceCore.splitQuery(request.getQueryString());
+        final List<String> keywords = new ArrayList<>();
+        final List<File> matching_folders = new ArrayList<>();
+        if (!params.containsKey("kw")) {
+            throw new ServletException("No keywords!");
         }
-       
-        File root = ServiceCore.find_root(q);
+        keywords.addAll(Arrays.asList(params.get("kw").toLowerCase().split("\\s+")));
+        
+        log.log(Level.INFO, "Found {0} keywords to search for.", new Object[] {keywords.size()});
+        
         SubfolderTableVisitor tv = new SubfolderTableVisitor(root);
-        ServiceCore.visitFiles(root, new FileFilter() {
+        FileFilter ff = new FileFilter() {
 
             @Override
-            public boolean accept(File pathname) {
+            public boolean accept(final File pathname) {
                 if (pathname.isDirectory()) {
+                    // add to wanted hit list of folders?
+                    String name = pathname.getName().toLowerCase();
+                    for (String keyword : keywords) {
+                        if (name.contains(keyword)) {
+                            matching_folders.add(pathname);
+                        }
+                    }
                     return true;
                 }
                 if (!pathname.canRead() || !pathname.isFile()) {
                     return false;
                 }
+                
+                // keyword match on filename?
                 String name = pathname.getName().toLowerCase();
-                return ServiceCore.acceptableFileExtensions(pathname.getName().toLowerCase());
+                for (String keyword : keywords) {
+                    if (name.contains(keyword)) {
+                        return true;
+                    }
+                }
+                
+                return matching_folders.contains(pathname.getParentFile());
             }
             
-        }, tv);
+        };
+        ServiceCore.visitFiles(root, ff, tv);
+        String results = tv.toString();
+        
         try (PrintWriter out = response.getWriter()) {
-            response.setContentType("text/plain");
-            
-            out.println(tv.toString());
+            response.setContentType("text/plain;charset=UTF-8");
+            if (results.length() < 1) {
+                out.println("<p>No hits.</p>");
+            } else {
+                out.println(results);
+            }
         }
     }
 
@@ -75,7 +108,7 @@ public class AvailableDownloads extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processGET(request, response);
+        processRequest(request, response);
     }
 
     /**
@@ -89,6 +122,7 @@ public class AvailableDownloads extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        processRequest(request, response);
     }
 
     /**
@@ -98,7 +132,7 @@ public class AvailableDownloads extends HttpServlet {
      */
     @Override
     public String getServletInfo() {
-        return "Returns a bootstrap-compatible HTML table with available downloads for a given GET query";
+        return "Short description";
     }// </editor-fold>
 
 }

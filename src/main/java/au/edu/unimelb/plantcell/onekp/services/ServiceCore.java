@@ -31,6 +31,25 @@ public class ServiceCore {
         return query_pairs;
     }
     
+    /**
+     * Returns true if a file of the given extension should be available to the user
+     * as a file download, false otherwise.
+     * @param name name of the file including extension eg. .docx (should be lowercased by caller) and must not be null
+     */
+    public final static boolean acceptableFileExtensions(final String name) {
+        assert(name != null && name.length() > 0);
+        return (name.endsWith(".png") || name.endsWith(".xls") || name.endsWith(".table") ||
+                        name.endsWith(".eps") || name.endsWith(".zip") || name.endsWith(".fasta") ||
+                        name.endsWith(".csv") || name.endsWith(".gz") || name.endsWith(".jpg") ||
+                        name.endsWith(".fa")  || name.endsWith(".docx") || name.endsWith(".pdf") ||
+                        name.endsWith(".xlsx")|| name.endsWith(".pptx"));
+    }
+    /**
+     * 
+     * @param q
+     * @return
+     * @throws ServletException 
+     */
     public static final File find_root(String q) throws ServletException {
          File root = new File(ROOT);
                         
@@ -38,7 +57,7 @@ public class ServiceCore {
         if (q.equals("maab_raw_input")) {
             root = new File(root, "raw-input-data");
         } else if (q.equals("maab_input_redundancy_removal")) {
-            root = new File(root, "clustering-performance");
+            root = new File(root, "per-sample-input-clustering");
         } else if (q.equals("maab_contaminant_rm")) {
             root = new File(root, "contaminant-removal");
         } else if (q.equals("maab_class")) {
@@ -55,6 +74,10 @@ public class ServiceCore {
             root = new File(root, "clustering-analyses");
         } else if (q.equals("maab_saved_results")) {
             root = new File(root, "final-saved-results");
+        } else if (q.equals("publications")) {
+            root = new File(root, "handcrafted/manuscripts");
+        } else if (q.equals("suppmat")) {
+            root = new File(root, "handcrafted/supp");
         } else {
             throw new ServletException("Unknown class of downloads: "+q);
         }

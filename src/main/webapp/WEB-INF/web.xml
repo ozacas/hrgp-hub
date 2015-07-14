@@ -25,6 +25,10 @@
         <servlet-name>AssemblyDownload</servlet-name>
         <servlet-class>au.edu.unimelb.plantcell.onekp.services.AssemblyDownload</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Search</servlet-name>
+        <servlet-class>au.edu.unimelb.plantcell.onekp.services.Search</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>AvailableDownloads</servlet-name>
         <url-pattern>/services/AvailableDownloads</url-pattern>
@@ -48,5 +52,9 @@
     <servlet-mapping>
         <servlet-name>AssemblyDownload</servlet-name>
         <url-pattern>/services/data</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Search</servlet-name>
+        <url-pattern>/services/Search</url-pattern>
     </servlet-mapping>
 </web-app>
