@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.File;
 import java.io.FileFilter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -19,6 +21,7 @@ import javax.servlet.http.HttpServletResponse;
  * @author acassin
  */
 public class AvailableDownloads extends HttpServlet {
+    private final static Logger log = Logger.getLogger("AvailableDownloadsServlet");
     
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,6 +43,8 @@ public class AvailableDownloads extends HttpServlet {
         }
        
         File root = ServiceCore.find_root(q);
+        log.log(Level.INFO, "Locating downloads in {0}", new Object[] {root.getAbsolutePath()});
+        
         SubfolderTableVisitor tv = new SubfolderTableVisitor(root);
         ServiceCore.visitFiles(root, new FileFilter() {
 
@@ -52,7 +57,14 @@ public class AvailableDownloads extends HttpServlet {
                     return false;
                 }
                 String name = pathname.getName().toLowerCase();
-                return ServiceCore.acceptableFileExtensions(pathname.getName().toLowerCase());
+                
+                if (ServiceCore.acceptableFileExtensions(name)) {
+                    log.info("Accepted "+name);
+                    return true;
+                } else {
+                    log.info("Rejected "+name);
+                    return false;
+                }
             }
             
         }, tv);
