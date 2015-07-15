@@ -14,6 +14,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.apache.commons.lang3.StringEscapeUtils;
 
 /**
@@ -21,9 +23,12 @@ import org.apache.commons.lang3.StringEscapeUtils;
  * @author acassin
  */
 public class SubfolderTableVisitor implements FileVisitor {
+    private final static Logger log = Logger.getLogger("SubfolderTableVisitor");
+    
     private final HashMap<File,List<File>> dir2files = new HashMap<>();
     private String prefix;
     private int n_carousels;
+    private int n_large_tables;
     
     public SubfolderTableVisitor() {
         this("");
@@ -41,6 +46,7 @@ public class SubfolderTableVisitor implements FileVisitor {
     public void beforeVisit() {
         dir2files.clear();
         n_carousels = 1;
+        n_large_tables = 1;
     }
     
     @Override
@@ -52,14 +58,31 @@ public class SubfolderTableVisitor implements FileVisitor {
         StringBuilder sb = new StringBuilder();
         ArrayList<File> image_files = new ArrayList<>();
         
+        if (dir2files.keySet().isEmpty()) {
+            sb.append("<p>No files available for download.</p>");
+            return sb.toString();
+        }
+        
+        log.log(Level.INFO, "Found {0} folders to scan for suitable downloads", new Object[] { dir2files.keySet().size() });
+        
         for (File folder : dir2files.keySet()) {
             List<File> files = dir2files.get(folder);
+            if (files.isEmpty()) {
+                log.log(Level.INFO, "Found no files for {0}... ignoring", new Object[] { folder.getAbsolutePath() });
+                continue;
+            }
+            log.log(Level.INFO, "Processing folder {0}", new Object[] { folder.getAbsolutePath() });
+                 
             ArrayList<File> other_files = new ArrayList<>();
             separateImagesFromOtherFiles(files, image_files, other_files);
             
             if (other_files.size() < 1) {
+                log.log(Level.INFO, "Zero other files but found {0} image files in {1}", 
+                                        new Object[] { image_files.size(), folder.getAbsolutePath()});
                 continue;
             }
+            log.log(Level.INFO, "File sizes: {0} {1} {2}", new Object[] { files.size(), image_files.size(), other_files.size() });
+            
             String suffix = folder.getAbsolutePath();
             if (suffix.startsWith(prefix)) {
                 suffix = suffix.substring(prefix.length());
@@ -78,6 +101,12 @@ public class SubfolderTableVisitor implements FileVisitor {
                  }
             }
            
+            boolean make_collapsed_table = (other_files.size() > 20);
+            if (make_collapsed_table) {
+                 String table_id = "table" + n_large_tables++;
+                 sb.append("<button type=\"button\" class=\"btn btn-info\" data-toggle=\"collapse\" data-target=\"#"+table_id+"\">Show large table</button>");
+                 sb.append("<div id=\""+table_id+"\" class=\"collapse\">");
+            }
             sb.append("<table class=\"table table-condensed\">");
             sb.append("<tr>");
             sb.append("<th>Name</th>");
@@ -116,8 +145,12 @@ public class SubfolderTableVisitor implements FileVisitor {
                 sb.append("</tr>");
             }
             sb.append("</table>");
+            if (make_collapsed_table) {
+                sb.append("</div>");
+            }
         }
    
+        log.log(Level.INFO, "Resulting HTML has length: {0}", new Object[] { sb.length() });
         return sb.toString();
     }
     

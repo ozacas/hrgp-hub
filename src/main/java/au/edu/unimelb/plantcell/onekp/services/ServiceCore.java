@@ -35,6 +35,7 @@ public class ServiceCore {
      * Returns true if a file of the given extension should be available to the user
      * as a file download, false otherwise.
      * @param name name of the file including extension eg. .docx (should be lowercased by caller) and must not be null
+     * @return true if the filename is an acceptable download, false otherwise
      */
     public final static boolean acceptableFileExtensions(final String name) {
         assert(name != null && name.length() > 0);
@@ -44,6 +45,7 @@ public class ServiceCore {
                         name.endsWith(".fa")  || name.endsWith(".docx") || name.endsWith(".pdf") ||
                         name.endsWith(".xlsx")|| name.endsWith(".pptx"));
     }
+    
     /**
      * 
      * @param q
