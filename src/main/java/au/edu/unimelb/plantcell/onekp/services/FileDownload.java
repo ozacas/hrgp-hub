@@ -15,6 +15,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.apache.commons.lang3.StringEscapeUtils;
 
 /**
  *
@@ -43,6 +44,8 @@ public class FileDownload extends HttpServlet {
         if (!params.containsKey("file")) {
             throw new ServletException("No file to download!");
         }
+        boolean as_attachment = params.containsKey("attachment") && params.get("attachment").equals("1");
+        
         String decoded = new String(Base64.getDecoder().decode(params.get("file")), "UTF-8");
         if (!decoded.startsWith(ServiceCore.ROOT) || decoded.contains("..")) {
             throw new ServletException("Bogus file: "+decoded);
@@ -54,6 +57,10 @@ public class FileDownload extends HttpServlet {
         
         try (OutputStream out = response.getOutputStream()) {
            response.setContentType(guessContentTypeFromFile(f));
+           if (as_attachment) {
+                String safe_filename = StringEscapeUtils.escapeHtml4(f.getName().replaceAll("\\s+", "_"));
+                response.setHeader("Content-disposition", " attachment; filename="+safe_filename);
+           }
            
            Files.copy(f.toPath(), out);
         }

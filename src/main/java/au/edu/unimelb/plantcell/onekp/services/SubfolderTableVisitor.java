@@ -95,9 +95,11 @@ public class SubfolderTableVisitor implements FileVisitor {
                  sb.append("<h3>");
                  sb.append(heading); 
                  sb.append("</h3>");
+                 sb.append(FolderDescription.get(folder));
             } else {
                  if (dir2files.keySet().size() > 1) {
                     sb.append("<h3>/</h3>");
+                    sb.append(FolderDescription.get(folder));
                  }
             }
            
@@ -124,7 +126,7 @@ public class SubfolderTableVisitor implements FileVisitor {
                         suffix = suffix.substring(1);
                     }
                 }
-                sb.append("<a href=\"services/FileDownload?file=");
+                sb.append("<a href=\"services/FileDownload?attachment=1&file=");
                 String encoded = Base64.getEncoder().encodeToString(f.getAbsolutePath().getBytes());
                 sb.append(encoded);
                 sb.append("\">");

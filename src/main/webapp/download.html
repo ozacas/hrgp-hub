@@ -63,9 +63,6 @@
               if (category === "publications") {
                   image.src = "images/pipeline.png";
                   heading.innerHTML = "Publications";
-              } else if (category === "suppmat") {
-                  image.src = "images/pipeline.png";
-                  heading.innerHTML = "Supplementary material for publications";
               } else if (category === "maab_class") {
                   image.src = "images/highlighted/pipeline-maab-classification.png";
                   heading.innerHTML = "MAAB classification results";
@@ -157,13 +154,14 @@
         <div id="sidebar-wrapper">
             <ol class="sidebar-nav">
                 <li class="sidebar-brand">
-                   Handcrafted documents
+                   Publications
                 </li>
                 <li>
-                    <a onclick="getDownloads('publications');">Publications</a>
+                    <a onclick="getDownloads('non-chimeric-paper');">Non-chimeric HRGP</a>
                 </li>
+                
                 <li>
-                    <a onclick="getDownloads('suppmat');">Supplementary Material</a>
+                    <a onclick="getDownloads('agpep-paper');">AG-Peptides</a>
                 </li>
                
                 <!-- <li>

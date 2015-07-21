@@ -76,10 +76,10 @@ public class ServiceCore {
             root = new File(root, "clustering-analyses");
         } else if (q.equals("maab_saved_results")) {
             root = new File(root, "final-saved-results");
-        } else if (q.equals("publications")) {
-            root = new File(root, "handcrafted/manuscripts");
-        } else if (q.equals("suppmat")) {
-            root = new File(root, "handcrafted/supp");
+        } else if (q.equals("non-chimeric-paper")) {
+            root = new File(root, "publications/non-chimeric");
+        } else if (q.equals("agpep-paper")) {
+            root = new File(root, "publications/ag-peptide");
         } else {
             throw new ServletException("Unknown class of downloads: "+q);
         }
