@@ -52,7 +52,7 @@ public class Search extends HttpServlet {
         
         log.log(Level.INFO, "Found {0} keywords to search for.", new Object[] {keywords.size()});
         
-        SubfolderTableVisitor tv = new SubfolderTableVisitor(root);
+        SubfolderTableVisitor tv = new SubfolderTableVisitor(getServletContext(), root);
         FileFilter ff = new FileFilter() {
 
             @Override

@@ -126,4 +126,18 @@ public class ServiceCore {
         doVisit(folder, filter, visitor);
         visitor.afterVisit();
     }
+    
+    /**
+     * Converts an absolute path on the hrgp site eg. /1kp/hrgp/classical-AGP/publication-figures/...
+     * to one relative to the root.
+     * 
+     * @param path should be a path located under {@code ServiceCore.ROOT}. Must not be null
+     * @return relative path
+     */
+    public static final String relativize(final File path) {
+        assert(path != null);
+        String relative = new File(ROOT).toURI().relativize(new File(path.getAbsolutePath()).toURI()).getPath();
+        
+        return relative;
+    }
 }

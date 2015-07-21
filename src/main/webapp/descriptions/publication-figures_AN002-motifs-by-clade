@@ -1,0 +1,8 @@
+<h3>Per taxonomic clade motif distribution</h3>
+
+<p>
+The HRGP family contains major motif classes: AGP-like ([STAVPG]P), cross linking (often including
+tyrosine motifs) and SerPro (SP{3-5}) motifs. These plots display the frequency of each motif by HRGP class
+and 1KP taxonomic clade, with separate plots for each combination. The horizontal axis displays the motifs
+searched for in identified proteins, with the vertical axis displaying the percentage of that motif found.
+</p>

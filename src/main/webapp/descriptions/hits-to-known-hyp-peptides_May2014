@@ -1,0 +1,8 @@
+<p>
+This pipeline step does no filtering, but does report those proteins which contain peptides
+published in the literature as containing hydroxyproline. The literature search used as well as
+matching proteins are available below. A large number of proteins have no hit, suggesting our
+existing knowledge of hydroxyproline-containing peptides is inadequate.
+</p>
+
+<h3>May2014 classified protein results</h3>

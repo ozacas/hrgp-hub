@@ -1,0 +1,6 @@
+<p>
+Some of the compositionally biased proteins which have survived processing so far, will contain
+recognised PFAM domains. Not all such chimeric proteins will have made it thus far, due to the domain
+not being compositionally biased, thus causing the overall protein to fail earlier tests. However, those that
+do survive are reported here.
+</p>

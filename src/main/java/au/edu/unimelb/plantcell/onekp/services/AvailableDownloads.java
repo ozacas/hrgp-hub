@@ -45,7 +45,7 @@ public class AvailableDownloads extends HttpServlet {
         File root = ServiceCore.find_root(q);
         log.log(Level.INFO, "Locating downloads in {0}", new Object[] {root.getAbsolutePath()});
         
-        SubfolderTableVisitor tv = new SubfolderTableVisitor(root);
+        SubfolderTableVisitor tv = new SubfolderTableVisitor(getServletContext(), root);
         ServiceCore.visitFiles(root, new FileFilter() {
 
             @Override

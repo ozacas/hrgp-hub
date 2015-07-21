@@ -58,7 +58,7 @@
         <url-pattern>/services/Search</url-pattern>
     </servlet-mapping>
     
-    <security-constraint>
+   <security-constraint>
         <web-resource-collection>
             <web-resource-name>hrgp-hub</web-resource-name>
             <url-pattern>/*</url-pattern>
@@ -80,5 +80,5 @@
     <security-role>
         <role-name>hrgp</role-name>
     </security-role>
-    
+   
 </web-app>

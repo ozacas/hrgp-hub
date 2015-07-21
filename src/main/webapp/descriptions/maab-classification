@@ -1,0 +1,7 @@
+<h3>Classifying proteins into HRGP classes (MAAB)</h3>
+
+<p>
+This pipeline step classifies surviving proteins from earlier processing into exactly one of 24 HRGP
+classes. Several versions of the classifier exist: only the May2014 classifier is published here. The
+results for all classifiers are available from the workflows.
+</p>

@@ -1,0 +1,13 @@
+<h3>Mean unigenes by clade</h3>
+
+<p>
+This plot, shows mean unigenes, as accepted by MAAB per 1KP taxonomic clade. There are several variants to cover
+varying needs:
+</p>
+<li>figure3: shows only those genes, which are not part of worrisome contaminated samples. The mean and SD are computed
+from samples with hits <b>only</b></li>
+<li>figure3b: shows only those genes, which are not part of worrisome contaminated samples. The mean and SD are computed
+from all samples of a given clade, even those which had no hits in MAAB eg. due to tissue type or assembly detection issues</li>
+<li>figure3c: TODO...</li>
+
+<br/>

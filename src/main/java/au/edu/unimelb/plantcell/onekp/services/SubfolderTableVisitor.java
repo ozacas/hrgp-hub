@@ -10,12 +10,14 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.servlet.ServletContext;
 import org.apache.commons.lang3.StringEscapeUtils;
 
 /**
@@ -26,20 +28,24 @@ public class SubfolderTableVisitor implements FileVisitor {
     private final static Logger log = Logger.getLogger("SubfolderTableVisitor");
     
     private final HashMap<File,List<File>> dir2files = new HashMap<>();
+    private final ServletContext context;
     private String prefix;
     private int n_carousels;
     private int n_large_tables;
     
     public SubfolderTableVisitor() {
-        this("");
+        this.context = null;
+        this.prefix  = "";
     }
     
-    public SubfolderTableVisitor(File f) {
-        this(f.getAbsolutePath());
+    public SubfolderTableVisitor(final ServletContext sc, File f) {
+        this(sc, f.getAbsolutePath());
     }
     
-    public SubfolderTableVisitor(String prefix) {
+    public SubfolderTableVisitor(final ServletContext sc, String prefix) {
+        assert(sc != null);
         this.prefix = prefix;
+        this.context = sc;
     }
     
     @Override
@@ -65,7 +71,28 @@ public class SubfolderTableVisitor implements FileVisitor {
         
         log.log(Level.INFO, "Found {0} folders to scan for suitable downloads", new Object[] { dir2files.keySet().size() });
         
-        for (File folder : dir2files.keySet()) {
+        FolderDescription fd = new FolderDescription(context);
+        
+        List<File> sorted_dirs = new ArrayList<File>();
+        sorted_dirs.addAll(dir2files.keySet());
+        Collections.sort(sorted_dirs, new Comparator<File>() {
+
+            @Override
+            public int compare(final File o1, final File o2) {
+                // length of absolute path is used for comparison for now...
+                int len1 = o1.getAbsolutePath().length();
+                int len2 = o2.getAbsolutePath().length();
+                if (len1 < len2) {
+                    return -1;
+                } else if (len1 > len2) {
+                    return 1;
+                } else {
+                    return 0;
+                }
+            }
+            
+        });
+        for (File folder : sorted_dirs) {
             List<File> files = dir2files.get(folder);
             if (files.isEmpty()) {
                 log.log(Level.INFO, "Found no files for {0}... ignoring", new Object[] { folder.getAbsolutePath() });
@@ -91,22 +118,27 @@ public class SubfolderTableVisitor implements FileVisitor {
                 }
             }
             String heading = StringEscapeUtils.escapeHtml4(suffix);
+            
+            log.log(Level.INFO, "Heading is {0}, suffix is {1}, folder is {2}", new Object[] { heading, suffix, folder});
             if (heading.length() > 0) {
-                 sb.append("<h3>");
-                 sb.append(heading); 
-                 sb.append("</h3>");
-                 sb.append(FolderDescription.get(folder));
+                 sb.append(fd.get(folder));         // NB: we assume in this case that <h3> is provided by fd.get()
             } else {
-                 if (dir2files.keySet().size() > 1) {
-                    sb.append("<h3>/</h3>");
-                    sb.append(FolderDescription.get(folder));
+                 if (sorted_dirs.size() > 1) {
+                    sb.append(fd.get(folder));
+                 } else {
+                    // even in the case where there is a single folder, we give FolderDescription a chance
+                    // to add a narrative to the page, not just the downloads
+                    String descr = fd.get(folder);
+                    if (descr != null && descr.length() > 0) {
+                        sb.append(descr);
+                    }
                  }
             }
            
             boolean make_collapsed_table = (other_files.size() > 20);
             if (make_collapsed_table) {
                  String table_id = "table" + n_large_tables++;
-                 sb.append("<button type=\"button\" class=\"btn btn-info\" data-toggle=\"collapse\" data-target=\"#"+table_id+"\">Show large table</button>");
+                 sb.append("<button type=\"button\" class=\"btn btn-info\" data-toggle=\"collapse\" data-target=\"#"+table_id+"\">Show/hide files</button>");
                  sb.append("<div id=\""+table_id+"\" class=\"collapse\">");
             }
             sb.append("<table class=\"table table-condensed\">");

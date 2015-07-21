@@ -1,0 +1,6 @@
+<h3>May2014 classification results</h3>
+
+<p>
+The May2014 classifier will fail to classify proteins if the metrics are too close to call. This does happen, rarely, and
+such proteins are reported below.
+</p>

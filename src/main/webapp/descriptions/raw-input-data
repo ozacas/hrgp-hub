@@ -1,0 +1,11 @@
+
+<p>
+The data at this step, represents the input given to MAAB. It comprises only those proteins
+which are at least 100AA, compositionally biased (%PAST/%PSKY/%PVYK) from all assembled 1KP samples, for
+each assembler k-mer (39,49,59 and 69) used. Thus a given protein may be reported in several k-mers. 
+</p>
+
+<p>
+The data is provided in two formats: CSV (gzip'ed) and <a href="http://www.knime.org">KNIME</a> .table format.
+But they are very large files and will take some time to load due to the amount of data.
+</p>

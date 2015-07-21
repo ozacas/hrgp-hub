@@ -1,0 +1,5 @@
+<p>
+Each RNAseq sample's compositionally biased proteins are clustered at 95% identity to reduce redundancy using
+<a href="http://www.drive5.com/usearch">usearch</a>. Thus the next step in the pipeline will face a substantially
+smaller dataset and thus speed the process at key bottlenecks.
+</p>
