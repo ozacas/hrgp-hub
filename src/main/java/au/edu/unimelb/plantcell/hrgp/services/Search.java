@@ -3,11 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package au.edu.unimelb.plantcell.onekp.services;
+package au.edu.unimelb.plantcell.hrgp.services;
 
+import au.edu.unimelb.plantcell.hrgp.interfaces.StreamResourceLoaderCallback;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -15,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -51,8 +54,15 @@ public class Search extends HttpServlet {
         keywords.addAll(Arrays.asList(params.get("kw").toLowerCase().split("\\s+")));
         
         log.log(Level.INFO, "Found {0} keywords to search for.", new Object[] {keywords.size()});
+        final ServletContext sc = getServletContext();
         
-        SubfolderTableVisitor tv = new SubfolderTableVisitor(getServletContext(), root);
+        SubfolderTableVisitor tv = new SubfolderTableVisitor(new StreamResourceLoaderCallback() {
+
+            @Override
+            public InputStream resolve(String key) {
+                return sc.getResourceAsStream(key);
+            }
+        }, root);
         FileFilter ff = new FileFilter() {
 
             @Override

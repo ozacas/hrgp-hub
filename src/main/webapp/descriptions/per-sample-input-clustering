@@ -3,3 +3,11 @@ Each RNAseq sample's compositionally biased proteins are clustered at 95% identi
 <a href="http://www.drive5.com/usearch">usearch</a>. Thus the next step in the pipeline will face a substantially
 smaller dataset and thus speed the process at key bottlenecks.
 </p>
+
+<p>
+The data table has the per-sample breakdown of the clustering process: number of compositionally biased
+sequences per RNAseq sample at the previous step, and the resulting number of cluster representatives chosen
+to proceed to the next step. Typically clustering halves the amount of data for the next step. Although some
+allelic variation may be lost, we consider this recoverable at a later date. The spreadsheet also contains the
+sample identification information. Only samples which are processed by MAAB appear in this spreadsheet.
+</p>

@@ -4,3 +4,11 @@ recognised PFAM domains. Not all such chimeric proteins will have made it thus f
 not being compositionally biased, thus causing the overall protein to fail earlier tests. However, those that
 do survive are reported here.
 </p>
+
+<p>
+Two files are provided:
+</p>
+<ol>
+    <li>CH001: raw blast results from NCBI BLAST+ rpsblast using NCBI CDD</li>
+    <li>CH002: a map of all domains found by rpsblast from NCBI CDD id's to PFAM</li>
+</ol>

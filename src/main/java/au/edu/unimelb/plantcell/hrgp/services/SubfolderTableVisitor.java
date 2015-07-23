@@ -3,8 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package au.edu.unimelb.plantcell.onekp.services;
+package au.edu.unimelb.plantcell.hrgp.services;
 
+import au.edu.unimelb.plantcell.hrgp.interfaces.FileVisitor;
+import au.edu.unimelb.plantcell.hrgp.interfaces.StreamResourceLoaderCallback;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -17,7 +19,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.servlet.ServletContext;
 import org.apache.commons.lang3.StringEscapeUtils;
 
 /**
@@ -28,24 +29,24 @@ public class SubfolderTableVisitor implements FileVisitor {
     private final static Logger log = Logger.getLogger("SubfolderTableVisitor");
     
     private final HashMap<File,List<File>> dir2files = new HashMap<>();
-    private final ServletContext context;
+    private final StreamResourceLoaderCallback cb;
     private String prefix;
     private int n_carousels;
     private int n_large_tables;
     
     public SubfolderTableVisitor() {
-        this.context = null;
+        this.cb = null;
         this.prefix  = "";
     }
     
-    public SubfolderTableVisitor(final ServletContext sc, File f) {
-        this(sc, f.getAbsolutePath());
+    public SubfolderTableVisitor(final StreamResourceLoaderCallback cb, File f) {
+        this(cb, f.getAbsolutePath());
     }
     
-    public SubfolderTableVisitor(final ServletContext sc, String prefix) {
-        assert(sc != null);
+    public SubfolderTableVisitor(final StreamResourceLoaderCallback cb, String prefix) {
+        assert(cb != null);
         this.prefix = prefix;
-        this.context = sc;
+        this.cb = cb;
     }
     
     @Override
@@ -71,9 +72,9 @@ public class SubfolderTableVisitor implements FileVisitor {
         
         log.log(Level.INFO, "Found {0} folders to scan for suitable downloads", new Object[] { dir2files.keySet().size() });
         
-        FolderDescription fd = new FolderDescription(context);
+        FolderDescription fd = new FolderDescription(cb);
         
-        List<File> sorted_dirs = new ArrayList<File>();
+        List<File> sorted_dirs = new ArrayList<>();
         sorted_dirs.addAll(dir2files.keySet());
         Collections.sort(sorted_dirs, new Comparator<File>() {
 
@@ -138,8 +139,12 @@ public class SubfolderTableVisitor implements FileVisitor {
             boolean make_collapsed_table = (other_files.size() > 20);
             if (make_collapsed_table) {
                  String table_id = "table" + n_large_tables++;
-                 sb.append("<button type=\"button\" class=\"btn btn-info\" data-toggle=\"collapse\" data-target=\"#"+table_id+"\">Show/hide files</button>");
-                 sb.append("<div id=\""+table_id+"\" class=\"collapse\">");
+                 sb.append("<button type=\"button\" class=\"btn btn-info\" data-toggle=\"collapse\" data-target=\"#");
+                 sb.append(table_id);
+                 sb.append("\">Show/hide files</button>");
+                 sb.append("<div id=\"");
+                 sb.append(table_id);
+                 sb.append("\" class=\"collapse\">");
             }
             sb.append("<table class=\"table table-condensed\">");
             sb.append("<tr>");

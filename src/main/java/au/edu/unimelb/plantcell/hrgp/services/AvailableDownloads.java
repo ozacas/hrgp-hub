@@ -3,14 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package au.edu.unimelb.plantcell.onekp.services;
+package au.edu.unimelb.plantcell.hrgp.services;
 
+import au.edu.unimelb.plantcell.hrgp.interfaces.StreamResourceLoaderCallback;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.File;
 import java.io.FileFilter;
+import java.io.InputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -44,8 +47,16 @@ public class AvailableDownloads extends HttpServlet {
        
         File root = ServiceCore.find_root(q);
         log.log(Level.INFO, "Locating downloads in {0}", new Object[] {root.getAbsolutePath()});
+        final ServletContext sc = getServletContext();
         
-        SubfolderTableVisitor tv = new SubfolderTableVisitor(getServletContext(), root);
+        SubfolderTableVisitor tv = new SubfolderTableVisitor(new StreamResourceLoaderCallback() {
+
+            @Override
+            public InputStream resolve(String key) {
+               return sc.getResourceAsStream(key);
+            }
+        }, root);
+        
         ServiceCore.visitFiles(root, new FileFilter() {
 
             @Override

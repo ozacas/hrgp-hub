@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package au.edu.unimelb.plantcell.onekp.services;
+package au.edu.unimelb.plantcell.hrgp.services;
 
+import au.edu.unimelb.plantcell.hrgp.interfaces.StreamResourceLoaderCallback;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -12,7 +13,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.servlet.ServletContext;
 
 /**
  * The sole purpose of this class is to return HTML descriptions for particular folders within the download page,
@@ -22,11 +22,11 @@ import javax.servlet.ServletContext;
  */
 public class FolderDescription {
     private final static Logger l = Logger.getLogger("FolderDescription");
-    private ServletContext context;
+    private StreamResourceLoaderCallback cb;
     
-    public FolderDescription(final ServletContext sc) {
-        assert(sc != null);
-        this.context = sc;
+    public FolderDescription(final StreamResourceLoaderCallback cb) {
+        assert(cb != null);
+        this.cb = cb;
     }
     
     /**
@@ -64,7 +64,7 @@ public class FolderDescription {
         }
         final_key = final_key.replaceAll("/", "_");
         l.log(Level.INFO, "Final key is {0}", final_key);
-        InputStream is = context.getResourceAsStream("/descriptions/"+final_key);
+        InputStream is = cb.resolve("/descriptions/"+final_key);
         if (is != null) {
             StringBuilder sb = new StringBuilder();
             try (BufferedReader rdr = new BufferedReader(new InputStreamReader(is))) {

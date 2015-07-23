@@ -3,31 +3,31 @@
     <display-name>hrgp-hub</display-name>
     <servlet>
         <servlet-name>AvailableDownloads</servlet-name>
-        <servlet-class>au.edu.unimelb.plantcell.onekp.services.AvailableDownloads</servlet-class>
+        <servlet-class>au.edu.unimelb.plantcell.hrgp.services.AvailableDownloads</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>FileDownload</servlet-name>
-        <servlet-class>au.edu.unimelb.plantcell.onekp.services.FileDownload</servlet-class>
+        <servlet-class>au.edu.unimelb.plantcell.hrgp.services.FileDownload</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>TreeDownload</servlet-name>
-        <servlet-class>au.edu.unimelb.plantcell.onekp.services.TreeDownload</servlet-class>
+        <servlet-class>au.edu.unimelb.plantcell.hrgp.services.TreeDownload</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>ImageCarousel</servlet-name>
-        <servlet-class>au.edu.unimelb.plantcell.onekp.services.ImageCarousel</servlet-class>
+        <servlet-class>au.edu.unimelb.plantcell.hrgp.services.ImageCarousel</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>auto1KPDataComplete</servlet-name>
-        <servlet-class>au.edu.unimelb.plantcell.onekp.services.auto1KPDataComplete</servlet-class>
+        <servlet-class>au.edu.unimelb.plantcell.hrgp.services.auto1KPDataComplete</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>AssemblyDownload</servlet-name>
-        <servlet-class>au.edu.unimelb.plantcell.onekp.services.AssemblyDownload</servlet-class>
+        <servlet-class>au.edu.unimelb.plantcell.hrgp.services.AssemblyDownload</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>Search</servlet-name>
-        <servlet-class>au.edu.unimelb.plantcell.onekp.services.Search</servlet-class>
+        <servlet-class>au.edu.unimelb.plantcell.hrgp.services.Search</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>AvailableDownloads</servlet-name>
@@ -57,8 +57,7 @@
         <servlet-name>Search</servlet-name>
         <url-pattern>/services/Search</url-pattern>
     </servlet-mapping>
-    
-   <security-constraint>
+    <security-constraint>
         <web-resource-collection>
             <web-resource-name>hrgp-hub</web-resource-name>
             <url-pattern>/*</url-pattern>
@@ -72,13 +71,10 @@
             <transport-guarantee>NONE</transport-guarantee>
         </user-data-constraint>
     </security-constraint>
-    
     <login-config>
         <auth-method>BASIC</auth-method>
     </login-config>
-    
     <security-role>
         <role-name>hrgp</role-name>
     </security-role>
-   
 </web-app>

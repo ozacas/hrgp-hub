@@ -3,5 +3,16 @@
 <p>
 This pipeline step classifies surviving proteins from earlier processing into exactly one of 24 HRGP
 classes. Several versions of the classifier exist: only the May2014 classifier is published here. The
-results for all classifiers are available from the workflows.
+results for all classifiers are available from the workflow download.
+</p>
+
+<p>
+Several datasets are available at this pipeline step:
+<ol>
+    <li>FC003:</li>
+    <li>MA001:</li>
+    <li>MA005: proteins which failed to produce a positive SignalP prediction. This can be caused
+by partial sequence or misprediction of the protein sequence and is provided as a resource for blast for
+checking putative orthologs against a larger set.</li>
+</ol>
 </p>
