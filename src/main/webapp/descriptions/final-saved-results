@@ -1,0 +1,10 @@
+<p>
+these data files are the final results produced by MAAB. They are large spreadsheets with lots of columns. For ease of
+use we have split them into two halves:
+</p>
+
+<ol>
+    <li>SA001: angiosperms and higher plants</li>
+    <li>SA002: algae/bryophytes</li>
+    <li>SA003: a per-sample and per-HRGP-class count of the results of the MAAB May2014 classifier</li>
+</ol>
