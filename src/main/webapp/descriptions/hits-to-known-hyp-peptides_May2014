@@ -2,7 +2,17 @@
 This pipeline step does no filtering, but does report those proteins which contain peptides
 published in the literature as containing hydroxyproline. The literature search used as well as
 matching proteins are available below. A large number of proteins have no hit, suggesting our
-existing knowledge of hydroxyproline-containing peptides is inadequate.
+existing knowledge of hydroxyproline-containing peptides is inadequate. Three files are available:
+</p>
+
+<ol>
+    <li>VL001: a summary of matching peptides and in which clades they matched. False positives should be expected.</li>
+    <li>VL002: counts of the numbers of sequences per HRGP class and taxonomic clade</li>
+    <li>VL003: survey spreadsheet with Hyp-containing peptides (<b>aside</b>: from plants only???) from published literature</li>
+</ol>
+
+<p>
+Note that the final results include columns for the actual peptides matched per published Hyp-containing peptides
 </p>
 
 <h3>May2014 classified protein results</h3>

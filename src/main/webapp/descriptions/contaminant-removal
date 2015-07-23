@@ -6,3 +6,8 @@ samples without a worrisome contaminant, so any identified HRGPs from approximat
 are removed as described by the spreadsheets below. At a future date, we plan to use phylogenetic analysis
 to estimate the likelihood of a HRGP introduced from a contaminant and remove in a more refined and selective, fashion.
 </p>
+
+<ol>
+    <li>CR001: a list of samples excluded due to being identified as containing a worrisome contaminant</li>
+    <li>CR002: a detailed list of sequence and sample information excluded</li>
+</ol>
