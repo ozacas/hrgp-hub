@@ -50,7 +50,6 @@
                         kw: keywords
                     },
                     success: function( data ) {
-                       $( "#image-result").empty();
                        $( "#result" ).html( data );
                     }
                });
@@ -103,19 +102,10 @@
                     },
                     success: function( data ) {
                        $( "#result" ).html( data );
+                       $('.owl-carousel').owlCarousel({auto_play:10000, auto_resize: false});
+                       $('.a').featherlight();
                     }
               });
-             $.ajax({
-                 url: "services/ImageCarousel",
-                 data: {
-                     category: category
-                 },
-                 success: function(data) {
-                     $( "#image-result" ).html(data);
-                     $( "#owl-example" ).owlCarousel({ autoPlay: 5000, auto_resize: true });
-                     $('.a').featherlight();
-                 }
-             });
           }
           
           function auto1KPDataComplete() {
@@ -218,9 +208,6 @@
                     <div class="col-lg-8">
                 
                         <h3 id="result-heading"> </h3>
-                        
-                        <div id="image-result">
-                        </div>
                         
                         <div id="result">
                         </div>

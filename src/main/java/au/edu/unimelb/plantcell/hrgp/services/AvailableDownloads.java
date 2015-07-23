@@ -70,17 +70,18 @@ public class AvailableDownloads extends HttpServlet {
                 String name = pathname.getName().toLowerCase();
                 
                 if (ServiceCore.acceptableFileExtensions(name)) {
-                    log.info("Accepted "+name);
+                    //log.info("Accepted "+name);
                     return true;
                 } else {
-                    log.info("Rejected "+name);
+                    log.log(Level.INFO, "Rejected {0}", name);
                     return false;
                 }
             }
             
         }, tv);
+        
         try (PrintWriter out = response.getWriter()) {
-            response.setContentType("text/plain");
+            response.setContentType("text/html");
             
             out.println(tv.toString());
         }

@@ -23,8 +23,19 @@ import org.apache.commons.lang3.StringEscapeUtils;
  */
 class ImageCarouselVisitor implements FileVisitor {
     private final ArrayList<File> image_files = new ArrayList<>();
+    private String carousel_id;
     
     public ImageCarouselVisitor(File root) {
+        this(root, null);
+    }
+    
+    public ImageCarouselVisitor(File root, String carousel_id) {
+        assert(root != null);
+        if (carousel_id != null) {
+            this.carousel_id = carousel_id;
+        } else {
+            this.carousel_id = "carousel1";
+        }
     }
 
     @Override
@@ -77,7 +88,7 @@ class ImageCarouselVisitor implements FileVisitor {
     public String toString() {  
         StringBuilder sb = new StringBuilder();
         if (image_files.size() > 0) {
-            sb.append("<div id=\"owl-example\" class=\"owl-carousel\">");
+            sb.append("<div id=\"").append(carousel_id).append("\" class=\"owl-carousel\">");
             for (File f : image_files) {
                 sb.append("<div>");
                 String title = StringEscapeUtils.escapeHtml4(f.getName());

@@ -62,18 +62,19 @@ public class SubfolderTableVisitor implements FileVisitor {
     
     @Override
     public String toString() {
+        int carousel_id = 1;
         StringBuilder sb = new StringBuilder();
-        ArrayList<File> image_files = new ArrayList<>();
         
         if (dir2files.keySet().isEmpty()) {
             sb.append("<p>No files available for download.</p>");
             return sb.toString();
         }
         
-        log.log(Level.INFO, "Found {0} folders to scan for suitable downloads", new Object[] { dir2files.keySet().size() });
+        log.log(Level.INFO, "Found {0} folders to scan for suitable downloads", 
+                new Object[] { dir2files.keySet().size() });
         
         FolderDescription fd = new FolderDescription(cb);
-        
+        ImageCarousel ic = new ImageCarousel();
         List<File> sorted_dirs = new ArrayList<>();
         sorted_dirs.addAll(dir2files.keySet());
         Collections.sort(sorted_dirs, new Comparator<File>() {
@@ -102,15 +103,21 @@ public class SubfolderTableVisitor implements FileVisitor {
             log.log(Level.INFO, "Processing folder {0}", new Object[] { folder.getAbsolutePath() });
                  
             ArrayList<File> other_files = new ArrayList<>();
+            ArrayList<File> image_files = new ArrayList<>();
             separateImagesFromOtherFiles(files, image_files, other_files);
             
             if (other_files.size() < 1) {
                 log.log(Level.INFO, "Zero other files but found {0} image files in {1}", 
                                         new Object[] { image_files.size(), folder.getAbsolutePath()});
+                if (image_files.size() > 0) {
+                    sb.append(fd.get(folder));
+                }
+                addCarousel(ic, image_files, sb, carousel_id);
+                carousel_id++;
                 continue;
             }
             log.log(Level.INFO, "File sizes: {0} {1} {2}", new Object[] { files.size(), image_files.size(), other_files.size() });
-            
+           
             String suffix = folder.getAbsolutePath();
             if (suffix.startsWith(prefix)) {
                 suffix = suffix.substring(prefix.length());
@@ -135,6 +142,9 @@ public class SubfolderTableVisitor implements FileVisitor {
                     }
                  }
             }
+            
+            addCarousel(ic, image_files, sb, carousel_id);
+            carousel_id++;
            
             boolean make_collapsed_table = (other_files.size() > 20);
             if (make_collapsed_table) {
@@ -291,5 +301,15 @@ public class SubfolderTableVisitor implements FileVisitor {
         sb.append("<span class=\"sr-only\">Next</span>");
         sb.append("</a>");
         sb.append("</div>");
+    }
+
+    private void addCarousel(final ImageCarousel ic, final List<File> image_files, 
+                                final StringBuilder sb, int carousel_id) {
+        if (image_files == null || image_files.isEmpty()) {
+            return;
+        }
+        String carousel_html = ic.makeCarouselFromFiles(image_files, "carousel"+carousel_id);
+        sb.append(carousel_html);
+        sb.append("<!-- caller must initialise owl carousel -->");
     }
 }

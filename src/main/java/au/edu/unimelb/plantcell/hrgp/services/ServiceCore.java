@@ -11,6 +11,7 @@ import java.io.FileFilter;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import javax.servlet.ServletException;
 
@@ -88,7 +89,7 @@ public class ServiceCore {
         return root;
     }
     
-    private static final void doVisit(final File folder, final FileFilter filter, final FileVisitor visitor) {
+    private static void doVisit(final File folder, final FileFilter filter, final FileVisitor visitor) {
          // want subfolders too?
         File[] folders = folder.listFiles(new FileFilter() {
 
@@ -125,6 +126,19 @@ public class ServiceCore {
         }
         visitor.beforeVisit();
         doVisit(folder, filter, visitor);
+        visitor.afterVisit();
+    }
+    
+    public static final void visitFiles(List<File> files, final FileFilter filter, final FileVisitor visitor) {
+        if (filter == null || visitor == null) {
+            return;
+        }
+        visitor.beforeVisit();
+        for (File f : files) {
+            if (filter.accept(f)) {
+                visitor.process(f);
+            }
+        }
         visitor.afterVisit();
     }
     

@@ -1,0 +1,10 @@
+
+<p>
+Supplementary datasets based on the accepted HRGPs reported by MAAB. The input data is
+the same as for publication figures, but there are only spreadsheets here.
+</p>
+
+<p>
+Different assembly k-mers can identify novel genes, the dataset AN003 reports extensins
+found in each assembly k-mer as a four-way venn table. Note that only the HRGP classes 1 thru 4 are reported.
+</p>

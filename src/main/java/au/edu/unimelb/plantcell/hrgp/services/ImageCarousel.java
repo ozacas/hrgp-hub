@@ -5,10 +5,12 @@
  */
 package au.edu.unimelb.plantcell.hrgp.services;
 
+import au.edu.unimelb.plantcell.hrgp.interfaces.FileVisitor;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -20,6 +22,76 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class ImageCarousel extends HttpServlet {
 
+    /**
+     * Returns the HTML for the carousel of the images (.png's only) 
+     * within the specified folder (and all subfolders).
+     * 
+     * @param folder_to_search
+     * @return 
+     */
+    public String visitImageFiles(final File folder_to_search, String carousel_id) {
+        assert(folder_to_search != null && folder_to_search.isDirectory());
+        
+        ImageCarouselVisitor tv = new ImageCarouselVisitor(folder_to_search, carousel_id);
+        ServiceCore.visitFiles(folder_to_search, new FileFilter() {
+
+            @Override
+            public boolean accept(File pathname) {
+                if (pathname.isDirectory()) {
+                    return true;
+                }
+                if (!pathname.canRead() || !pathname.isFile()) {
+                    return false;
+                }
+                String name = pathname.getName().toLowerCase();
+                return (name.endsWith(".png"));
+            }
+            
+        }, tv);
+        
+        return tv.toString();
+    }
+    
+    public String visitImageFilesNoSubfolders(File folder_to_search, String carousel_id) {
+         assert(folder_to_search != null && folder_to_search.isDirectory());
+        
+        ImageCarouselVisitor tv = new ImageCarouselVisitor(folder_to_search, carousel_id);
+        ServiceCore.visitFiles(folder_to_search, new FileFilter() {
+
+            @Override
+            public boolean accept(File pathname) {
+                if (pathname.isDirectory()) {
+                    return false;
+                }
+                if (!pathname.canRead() || !pathname.isFile()) {
+                    return false;
+                }
+                String name = pathname.getName().toLowerCase();
+                return (name.endsWith(".png"));
+            }
+            
+        }, tv);
+        
+        return tv.toString();
+    }
+    
+    public String makeCarouselFromFiles(final List<File> files, final String carousel_id) {
+        if (files == null || files.isEmpty()) {
+            return "";
+        }
+        FileVisitor tv = new ImageCarouselVisitor(files.get(0).getParentFile(), carousel_id);
+        
+        ServiceCore.visitFiles(files, new FileFilter() {
+
+            @Override
+            public boolean accept(File pathname) {
+               return true;
+            }
+            
+        }, tv);
+        return tv.toString();
+    }
+    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -40,25 +112,10 @@ public class ImageCarousel extends HttpServlet {
         }
         
         File root = ServiceCore.find_root(q);
-        ImageCarouselVisitor tv = new ImageCarouselVisitor(root);
-        ServiceCore.visitFiles(root, new FileFilter() {
-
-            @Override
-            public boolean accept(File pathname) {
-                if (pathname.isDirectory()) {
-                    return true;
-                }
-                if (!pathname.canRead() || !pathname.isFile()) {
-                    return false;
-                }
-                String name = pathname.getName().toLowerCase();
-                return (name.endsWith(".png"));
-            }
-            
-        }, tv);
+        String results = visitImageFiles(root, "carousel1");
         try (PrintWriter out = response.getWriter()) {
             response.setContentType("text/plain");
-            out.println(tv.toString());
+            out.println(results);
         }
     }
 
