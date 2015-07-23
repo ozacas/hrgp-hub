@@ -4,10 +4,11 @@
 This plot, shows mean unigenes, as accepted by MAAB per 1KP taxonomic clade. There are several variants to cover
 varying needs:
 </p>
-<li>figure3: shows only those genes, which are not part of worrisome contaminated samples. The mean and SD are computed
-from samples with hits <b>only</b></li>
+<li>figure3: shows the mean unigenes per clade. Except for commenlinids which are shown at the order level, to
+aid in showing loss of extensins in grasses. Missing samples eg. due to contaminants or no hits are treated as zero
+with the mean and SD computed accordingly. Note that error bars show standard deviation for clade/order.</li>
 <li>figure3b: shows only those genes, which are not part of worrisome contaminated samples. The mean and SD are computed
 from all samples of a given clade, even those which had no hits in MAAB eg. due to tissue type or assembly detection issues</li>
-<li>figure3c: TODO...</li>
+<li>figure3c: same as figure3b but with monocots removed. Only HRGP classes 1 thru 4 are shown</li>
 
 <br/>

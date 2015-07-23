@@ -1,5 +1,7 @@
 <h3>Mean unigenes by clade (MonikaD variant)</h3>
 
 <p>
-Monika wanted to investigate a variant of figure3 plots: 
+Monika wanted to investigate a variant of figure3 plots: separate figures for each HRGP class and
+without commelinids (monocot) orders expanded. Each plot has missing samples treated as zero eg. due to no hits from MAAB
+or contaminantion as zero. With the mean and SD computed accordingly.
 </p>

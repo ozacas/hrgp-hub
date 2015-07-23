@@ -2,5 +2,9 @@
 
 <p>
 The May2014 classifier will fail to classify proteins if the metrics are too close to call. This does happen, rarely, and
-such proteins are reported below.
+such proteins are reported below:
 </p>
+<ol>
+    <li>FC001: proteins which the classifier failed on. Subsequent classifiers, which are not used for the manuscript, attempted to address the issues raised.</li>
+    <li>FC002: classification results for each HRGP class with a total count of proteins in each class</li>
+</ol>
