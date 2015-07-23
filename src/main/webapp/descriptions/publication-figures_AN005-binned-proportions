@@ -1,5 +1,13 @@
 <h3>Proportional motif coverage (binned)</h3>
 
 <p>
-Again, several variants of this analysis are available, depending on your requirements.
+Again, several variants of this analysis are available, depending on your requirements:
 </p>
+<ol>
+    <li>FigureA: plots the %proline coverage of proteins in each HRGP class and 1KP taxonomic clade. Idea
+is to investigate shifts during evolution in potential hydroxylation sites</li>
+    <li>FigureB: plots the %coverage of recognised AGP/Extensin and PRP motifs by HRGP class and taxonomic clade</li>
+    <li>FigureC: although not officially regarded as AGP motifs, some AGP-like glycomotifs are often observed. We report
+the % of AGP-like motifs, as a percentage coverage of total protein, by HRGP class and 1kp clade. AGP like motifs are 
+defined by the regular expression: <tt>[IRKL]P{1,3}</tt></li>
+</ol>

@@ -1,0 +1,7 @@
+<h3>Detection rate by HRGP class and order heatmaps</h3>
+
+<p>
+These heatmaps report the detection rates for each order and HRGP class. The heat is
+the percentage of species in each order which have hits reported by MAAB. A separate
+heatmap is reported for each 1KP taxonomic clade.
+</p>
