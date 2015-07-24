@@ -5,3 +5,9 @@ Non-chimeric HRGPs have identified motifs, to investigate transitions of motifs 
 evolution we report motif usage by clade as a series of heatmaps. The raw data is also
 available.
 </p>
+
+<p>
+Separate heatmaps are provided for HRGP classes 1,2 and 24. The heat is defined as the percentage
+of a given motif relative to its counterparts of the same length eg. %AP is computed as <tt>AP/(AP+SP+TP+YP+VP+VP+GP+FP+HP+LP) * 100</tt>,
+separately for each clade based on the accepted MAAB hits for the clade.
+</p>
