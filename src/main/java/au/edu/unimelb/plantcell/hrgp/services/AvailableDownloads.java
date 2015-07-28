@@ -49,13 +49,18 @@ public class AvailableDownloads extends HttpServlet {
         log.log(Level.INFO, "Locating downloads in {0}", new Object[] {root.getAbsolutePath()});
         final ServletContext sc = getServletContext();
         
-        SubfolderTableVisitor tv = new SubfolderTableVisitor(new StreamResourceLoaderCallback() {
+        StreamResourceLoaderCallback cb = new StreamResourceLoaderCallback() {
 
             @Override
             public InputStream resolve(String key) {
                return sc.getResourceAsStream(key);
             }
-        }, root);
+        };
+        
+        SubfolderTableVisitor tv = new SubfolderTableVisitor(cb, root);
+        if (q.equals("non-chimeric-paper")) {
+            tv = new DateSortedSubfolderTableVisitor(cb, root);
+        }
         
         ServiceCore.visitFiles(root, new FileFilter() {
 

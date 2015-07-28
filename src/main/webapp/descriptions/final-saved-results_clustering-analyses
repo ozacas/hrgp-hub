@@ -1,0 +1,19 @@
+<h3>Results of clustering analyses</h3>
+
+<p>
+Although we provide these results, we consider them to be unsuccessful at categorising a large dataset into
+smaller, more manageable pieces. The results are ok at small evolutionary distance eg. family-level but fail at larger evolutionary timescales.
+Using these results is <b>not recommended</b> for all but the most constrained evolutionary analyses.
+</p>
+
+<p>
+Four separate analyses are provided:
+<ol>
+    <li>CA001: examination of class 24 MAAB results showed prp-like results. this analysis tries to examine this further by
+extracting members of class 24 with at least 15% coverage of PRP motifs like: <tt>P[QDEKPI]P[QDEKPI]</tt>, <tt>PP[QDEKPI]P[QDEKPI]</tt>.
+Actually, this is not really a clustering, but it doesnt really belong anywhere else </tt>;-)</tt></li>
+
+    <li>CA002: using cdhit (@80% identity) extract those clusters which have two or more families and align each cluster using muscle</li>
+    <li>CA003:</li>
+    <li>CA004:</li>
+</ol>

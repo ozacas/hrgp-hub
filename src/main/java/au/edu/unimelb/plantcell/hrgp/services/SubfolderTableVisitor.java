@@ -60,6 +60,32 @@ public class SubfolderTableVisitor implements FileVisitor {
     public void afterVisit() {
     }
     
+    /**
+     * Subclasses may override this to provide custom directory sorting on a per-instance
+     * basis. The default implementation sorts by length of the absolute path, which is not overly useful.
+     * 
+     * @return must not be null
+     */
+    public Comparator<File> getDirectoryComparator() {
+        return new Comparator<File>() {
+
+            @Override
+            public int compare(final File o1, final File o2) {
+                // length of absolute path is used for comparison for now...
+                int len1 = o1.getAbsolutePath().length();
+                int len2 = o2.getAbsolutePath().length();
+                if (len1 < len2) {
+                    return -1;
+                } else if (len1 > len2) {
+                    return 1;
+                } else {
+                    return 0;
+                }
+            }
+            
+        };
+    }
+    
     @Override
     public String toString() {
         int carousel_id = 1;
@@ -77,23 +103,7 @@ public class SubfolderTableVisitor implements FileVisitor {
         ImageCarousel ic = new ImageCarousel();
         List<File> sorted_dirs = new ArrayList<>();
         sorted_dirs.addAll(dir2files.keySet());
-        Collections.sort(sorted_dirs, new Comparator<File>() {
-
-            @Override
-            public int compare(final File o1, final File o2) {
-                // length of absolute path is used for comparison for now...
-                int len1 = o1.getAbsolutePath().length();
-                int len2 = o2.getAbsolutePath().length();
-                if (len1 < len2) {
-                    return -1;
-                } else if (len1 > len2) {
-                    return 1;
-                } else {
-                    return 0;
-                }
-            }
-            
-        });
+        Collections.sort(sorted_dirs, getDirectoryComparator());
         for (File folder : sorted_dirs) {
             List<File> files = dir2files.get(folder);
             if (files.isEmpty()) {
