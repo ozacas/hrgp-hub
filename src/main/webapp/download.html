@@ -94,6 +94,7 @@
                   heading.innerHTML = "Input data clustering performance";
               } else {
                   image.src = "images/pipeline.png";
+                  heading.innerHTML = "";
               }
               $.ajax({
                     url: "services/AvailableDownloads",
@@ -153,6 +154,10 @@
                 <li>
                     <a onclick="getDownloads('agpep-paper');">AG-Peptides</a>
                 </li>
+                
+                <li>
+                    <a onclick="getDownloads('existing-literature');">Existing Literature</a>
+                </li>
                
                 <!-- <li>
                     <a onclick="getDownloads('gt2');">GT2</a>
@@ -171,7 +176,6 @@
                 <li><a onclick="getDownloads('maab_figures');">7. Publication figures</a></li>
                 <li><a onclick="getDownloads('maab_supptables');">8. Supplementary tables</a></li>
                 <li><a onclick="getDownloads('maab_saved_results');">9. Final results</a></li>
-                <li><a onclick="getDownloads('maab_clustering');">10. Final results - clustering</a></li>
             </ol>
         </div>
         <!-- /#sidebar-wrapper -->

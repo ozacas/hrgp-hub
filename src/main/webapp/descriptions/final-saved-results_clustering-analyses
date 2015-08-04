@@ -14,6 +14,11 @@ extracting members of class 24 with at least 15% coverage of PRP motifs like: <t
 Actually, this is not really a clustering, but it doesnt really belong anywhere else </tt>;-)</tt></li>
 
     <li>CA002: using cdhit (@80% identity) extract those clusters which have two or more families and align each cluster using muscle</li>
-    <li>CA003:</li>
-    <li>CA004:</li>
+    <li>CA003: using cdhit to cluster MAAB class 1 identifications at 70% identity. Clusters which cross two or more taxonomic families
+are aligned with muscle and saved. Summary results of the clustering process also. Other clusters ie. clusters of sequences which
+are in one family only are not reported.</li>
+    <li>CA004: we clustered using usearch at identity ranges from 50% to 70% in steps of 5%. Clusters are only aligned and reported if they
+meet the following criteria: five or more sequences in the cluster. All such clusters are aligned (with <i>Arabidopsis thaliana</i> controls)
+and reported. Small clusters are not reported.
+</li>
 </ol>

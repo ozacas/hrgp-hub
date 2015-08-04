@@ -1,0 +1,44 @@
+<h3>Class 2 (CL-Extensin) cpHMM analysis</h3>
+
+<p>
+Using <a href="http://elkeschaper.github.io/tral/">tral</a> on all class 2 MAAB proteins, we identified significant repeats with evidence against the
+null hypothesis that the TR units are unrelated ie. infinite evolutionary distance. We attempted this analysis for several reasons:
+</p>
+<ul>
+    <li>To identify possible CL-extensins in the MA005 dataset which are not classified by MAAB due to partial transcript sequence without N-terminal sequence for SignalP</li>
+    <li>To evaluate if cpHMM's are effective with identification of related extensins for each of the significant repeats reported by TRAL</li>
+    <li>To permit further analysis of the CL-extensin dataset as the result of the above</li>
+</ul>
+
+<p>
+Several files are available:
+</p>
+<ul>
+    <li>scripts.zip: contains the python run.py script used for identifying repeats and constructing cpHMMs. Also contains
+the bash script to create alignments and store them. Quick hacks, but hopefully correct <tt>;-)</tt></li>
+    <li>cphmm-models-per-significant-repeat.zip: a cpHMM (see Schaper et al 2014) is built for each significant repeat.
+The hmmer-compatible models for each repeat are in this zip file</li>
+    <li>cphmm-hits-to-ma005-by-hmmsearch.zip: to test whether some CL-extensins are not being predicted by MAAB due to missing signal sequence,
+we apply each cpHMM to the MA005 fasta file to identify putative partial CL-extensins. Evaluation of these results is ongoing. This file is the
+raw hmmsearch output for each cpHMM.</li>
+    <li>ma005-alignment-of-hits-per-cphmm.zip: a large file containing separate muscle-alignments (fasta format) of all hits
+from each cpHMM. Each file is named after the cpHMM (ie. significant repeat). <a href="http://hmmer.janelia.org/">Hmmsearch v3.1b1</a> was used to apply each cpHMM
+to the MA005 dataset. Hits were only accepted with an evalue < 1e-10.</li>
+    <li>results-summary-20150804.xls: an Excel spreadsheet summarising significant repeats identified within MAAB class2 results. One row
+per repeat (some CL-extensins may have overlapping repeats reported). The columns are as follows:</li>
+</ul>
+<table class="table small">
+    <tr><td><i>reported repeat</i></td>
+    <td>the TRAL repeat which the rest of the columns describe. The cyclic profile HMM is built from this and then searched using hmmer</td></tr>
+
+    <tr><td><i>repeat start position<i></td><td>relative to the protein reference by ID, this is the 1-relative start position of the repeat</td></tr>
+
+    <tr><td><i>divergence</i></td><td>the lower the measure, the more conserved each TR unit is as part of the repeat. I'm trying to explore the lower diverged repeat results first - as I think I might find better results there more easily</td></tr>
+
+    <tr><td><i>effective length</i></td><td>number of AA in each TR unit</td></tr>
+
+    <tr><td><i>number of copies</i></td><td>number of TR units in the repeat</td></tr>
+
+    <tr><td><i>p-value</i></td><td>the null hypothesis is that the TR units are unrelated (infinite evolutionary distance), the so a p-value < 0.05 represents sufficient evidence against that hypothesis. Only significant repeats appear here, although one could argue that all identified repeats should appear here too (that would add several thousand rows). Calculation of the p-value is as described in Schaper 2014</td></tr>
+
+</table>
