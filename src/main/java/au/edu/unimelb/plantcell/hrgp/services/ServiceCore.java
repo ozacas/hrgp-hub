@@ -82,6 +82,8 @@ public class ServiceCore {
             root = new File(root, "publications/non-chimeric");
         } else if (q.equals("agpep-paper")) {
             root = new File(root, "publications/ag-peptide");
+        } else if (q.equals("existing-literature")) {
+            root = new File(root, "publications/existing");
         } else {
             throw new ServletException("Unknown class of downloads: "+q);
         }
