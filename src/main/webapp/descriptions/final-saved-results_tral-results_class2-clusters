@@ -1,0 +1,19 @@
+<h3>Putative class 2 orthologs from cpHMM analysis</h3>
+
+<p>
+Extending the above cpHMM analysis, we apply these significant repeats to
+all class 2 extensins. The aim is to identify related repeat architectures
+and putative orthologs. This is done by the following steps:
+</p>
+<ol>
+    <li>construct cpHMMs for each significant repeat</li>
+    <li>apply each cpHMM using hmmsearch, to the set of MAAB class 2 extensins</li>
+    <li>reject all models (ie. cpHMMs) which produce more than 200 hits: poor specificity</li>
+    <li>align hits, using muscle, for each cpHMM including the protein sequence which gave the repeat used to build the cpHMM</li>
+    <li>save only those alignments between 2 and 50 hits, and a corresponding summary of each model and the clades/orders/families hit by the cpHMM</li>
+</ol>
+
+<p>
+A histogram of cpHMM hits is also available below, but this only displays those models with less than
+200 hits.
+</p>
