@@ -41,11 +41,11 @@ public class ServiceCore {
      */
     public final static boolean acceptableFileExtensions(final String name) {
         assert(name != null && name.length() > 0);
-        return (name.endsWith(".png") || name.endsWith(".xls") || name.endsWith(".table") ||
-                        name.endsWith(".eps") || name.endsWith(".zip") || name.endsWith(".fasta") ||
-                        name.endsWith(".csv") || name.endsWith(".gz") || name.endsWith(".jpg") ||
-                        name.endsWith(".fa")  || name.endsWith(".docx") || name.endsWith(".pdf") ||
-                        name.endsWith(".xlsx")|| name.endsWith(".pptx"));
+        return (name.endsWith(".png")         || name.endsWith(".xls")  || name.endsWith(".table") ||
+                        name.endsWith(".eps") || name.endsWith(".zip")  || name.endsWith(".fasta") ||
+                        name.endsWith(".csv") || name.endsWith(".gz")   || name.endsWith(".jpg")   ||
+                        name.endsWith(".fa")  || name.endsWith(".docx") || name.endsWith(".pdf")   ||
+                        name.endsWith(".xlsx")|| name.endsWith(".pptx") || name.endsWith(".ai"));
     }
     
     /**
