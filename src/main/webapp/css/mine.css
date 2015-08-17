@@ -2,6 +2,10 @@ img.logo {
     height: 32px
 }
 
+.scrolloverflow {
+    overflow-y: auto;
+}
+
 .owl-carousel {
     margin-bottom: 20px;
     margin-top: 20px;
