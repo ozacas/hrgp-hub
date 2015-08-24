@@ -22,7 +22,7 @@ import javax.servlet.http.HttpServletResponse;
  * @author acassin
  */
 public class AlignmentDownload extends HttpServlet {
-    private final Logger log = Logger.getLogger("AlignmentDownload");
+    private static final Logger log = Logger.getLogger("AlignmentDownload");
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -46,7 +46,11 @@ public class AlignmentDownload extends HttpServlet {
         if (!params.containsKey("msa")) {
             throw new ServletException("msa parameter missing, but required!");
         }
-        log.log(Level.INFO, "Looking for msa: "+params.get("msa"));
+        if (!params.get("msa").matches("^class\\d+/[a-z]+$")) {
+            throw new ServletException("Invalid msa parameter: expected eg. class1/brassicales");
+        }
+        
+        log.log(Level.INFO, "Looking for msa: {0}", params.get("msa"));
         File alignment = new File(alignment_root, params.get("msa")+".muscle.fasta");
         if (!alignment.exists() || !alignment.isFile() || !alignment.canRead()) {
             throw new ServletException("Cannot read "+alignment.getAbsolutePath());

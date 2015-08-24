@@ -30,7 +30,7 @@ import org.apache.commons.lang3.StringEscapeUtils;
  * @author acassin
  */
 public class Alignment extends HttpServlet {
-    private final Logger log = Logger.getLogger("Alignment");
+    private static final Logger log = Logger.getLogger("Alignment");
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -46,6 +46,10 @@ public class Alignment extends HttpServlet {
         Map<String,String> params = ServiceCore.splitQuery(request.getQueryString());
         if (!(params.containsKey("hclass") && params.containsKey("torder"))) {
             throw new ServletException("HRGP class and taxonomic order required!");
+        }
+        if (!params.get("hclass").matches("^class\\d+$") || 
+                !params.get("torder").matches("^[a-z]+$")) {
+            throw new ServletException("Invalid arguments hclass and/or torder");
         }
         
         URL u = new URL(request.getRequestURL().toString());
