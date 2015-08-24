@@ -1,6 +1,23 @@
-<h3>Class 24 cpHMM analysis</h3>
+<h3>Class 24 TRAL analysis</h3>
 
 <p>
     Similar to the class 2 and class 3 analyses, this attempts to identify statistically significant
-    repeats in MAAB class 24.
+    repeats in MAAB class 24. The files in this analysis are:
 </p>
+
+<ul>
+    <li>class24_only_tral_accepted_repeats.xls: an Excel spreadsheet with significant repeats identified
+from MAAB class 24 sequences. Each repeat has a corresponding cpHMM constructed, which is used for
+subsequent searches with hmmer. Each repeat has a TR length of at least 10AA, 4 copies and a 
+p-value computed using the phylo_gap1 model</li>
+
+    <li>class24_hits_from_all_models.xls: some of the repeats will provides no hits (better than threshold),
+but most will match numerous sequences from class 24. This spreadsheet gives a table of hits
+per model, along with sample annotation information. The full-sequence evalue and score is also included.
+</li>
+
+    <li>class24_alignments_from_accepted_repeats.zip: built from the preceding spreadsheet,
+all sequences per model are aligned with muscle (including the model sequence which provided
+the repeat which was matched) and then pooled into a single zip file. The alignment files'
+name corresponds to the contig ID from the accepted repeats spreadsheet</li>
+</ul>

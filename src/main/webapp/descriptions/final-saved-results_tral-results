@@ -42,3 +42,21 @@ per repeat (some CL-extensins may have overlapping repeats reported). The column
     <tr><td><i>p-value</i></td><td>the null hypothesis is that the TR units are unrelated (infinite evolutionary distance), the so a p-value < 0.05 represents sufficient evidence against that hypothesis. Only significant repeats appear here, although one could argue that all identified repeats should appear here too (that would add several thousand rows). Calculation of the p-value is as described in Schaper 2014</td></tr>
 
 </table>
+
+<p>
+Extending the above cpHMM analysis, we apply these significant repeats to
+all class 2 extensins. The aim is to identify related repeat architectures
+and putative orthologs. This is done by the following steps:
+</p>
+<ol>
+    <li>construct cpHMMs for each significant repeat</li>
+    <li>apply each cpHMM using hmmsearch, to the set of MAAB class 2 extensins</li>
+    <li>reject all models (ie. cpHMMs) which produce more than 200 hits: poor specificity</li>
+    <li>align hits, using muscle, for each cpHMM including the protein sequence which gave the repeat used to build the cpHMM</li>
+    <li>save only those alignments between 2 and 50 hits, and a corresponding summary of each model and the clades/orders/families hit by the cpHMM</li>
+</ol>
+
+<p>
+A histogram of cpHMM hits is also available below, but this only displays those models with less than
+200 hits.
+</p>

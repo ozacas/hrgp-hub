@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Alignment</title>
+
+    <!-- needed to ensure carousel are correctly sized -->
+    <link href="../css/mine.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="../css/blog.css" rel="stylesheet">
+    <!-- Bootstrap core CSS -->
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <!-- sidebar -->
+    <link href="../css/simple-sidebar.css" rel="stylesheet">
+   
+    <!-- autocomplete stylesheet stuff -->
+    <link rel="stylesheet" href="../css/jquery-ui.css" />
+    
+    <!-- multiple sequence alignment (MSA) code -->
+    <link type="text/css" rel="stylesheet" href="http://parce.li/bundle/msa@0.4.7">
+
+    <script src="https://wzrd.in/bundle/msa@0.4.7"></script>
+    <script src="https://wzrd.in/bundle/biojs-io-fasta@latest"></script>
+    <script src="https://wzrd.in/bundle/biojs-io-clustal@latest"></script>
+    <script src="https://wzrd.in/bundle/biojs-io-gff@latest"></script>
+    <script src="https://wzrd.in/bundle/xhr@latest"></script>
+    
+    <script type="text/javascript" src="../js/jquery-latest.js"></script>
+    <script type="text/javascript" src="../js/jquery-ui.js"></script>
+    
+    <script src="../js/bootstrap.min.js"></script>
+  </head>
+
+  <body>
+      <script>
+            $('document').ready(function() {
+                // this is a way how you use a bundled file parser
+                var msa = require("msa");
+                var opts = {};
+
+                // set your custom properties
+                opts.importURL = '@@ALIGNMENT_URL@@';
+                opts.el = document.getElementById('result');
+                opts.vis = {conserv: false, overviewbox: true};
+                opts.zoomer = {alignmentHeight: 225, labelWidth: 130,labelFontsize: "9px",labelIdLength: 20,   menuFontsize: "12px",menuMarginLeft: "3px", menuPadding: "3px 4px 3px 4px", menuItemFontsize: "14px", menuItemLineHeight: "14px"};
+                
+                // init msa
+                var m = new msa(opts);
+
+                // the menu is independent to the MSA container
+                var menuOpts = {};
+                menuOpts.el  = document.getElementById('menuDiv');
+                menuOpts.msa = m;
+                var defMenu  = new msa.menu.defaultmenu(menuOpts);
+                m.
+                m.addView("menu", defMenu);
+
+                // call render at the end to display the whole MSA
+                m.render();
+            });
+      </script>
+      
+      <div id="wrapper">
+
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+            <div class="container-fluid">
+               
+                <div class="row">
+                    
+                    <!-- main output region, which displays the menubar and alignment (MSA) -->
+                    <div class="col-lg-10">
+                        <h3 id="result-heading"></h3>
+                        <div id="menuDiv"></div>
+                        <div id="result"> </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+        <!-- /#page-content-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+    </body>
+</html>

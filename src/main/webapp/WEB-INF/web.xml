@@ -2,6 +2,14 @@
 <web-app version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee         http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
     <display-name>hrgp-hub</display-name>
     <servlet>
+        <servlet-name>Alignment</servlet-name>
+        <servlet-class>au.edu.unimelb.plantcell.hrgp.services.Alignment</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AlignmentDownload</servlet-name>
+        <servlet-class>au.edu.unimelb.plantcell.hrgp.services.AlignmentDownload</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>AvailableDownloads</servlet-name>
         <servlet-class>au.edu.unimelb.plantcell.hrgp.services.AvailableDownloads</servlet-class>
     </servlet>
@@ -56,6 +64,14 @@
     <servlet-mapping>
         <servlet-name>Search</servlet-name>
         <url-pattern>/services/Search</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Alignment</servlet-name>
+        <url-pattern>/services/Alignment</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AlignmentDownload</servlet-name>
+        <url-pattern>/services/AlignmentDownload</url-pattern>
     </servlet-mapping>
     <security-constraint>
         <web-resource-collection>

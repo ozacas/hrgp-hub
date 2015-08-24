@@ -112,7 +112,9 @@
                 }
                 $(button_obj).append("<a href=\"services/TreeDownload?file=1&torder="+
                              taxonomic_order+"&hclass="+hrgp_class+
-                                    "\" class=\"btn btn-primary\">Download</a>");
+                                    "\" class=\"btn btn-primary\">Download</a>&nbsp;");
+                $(button_obj).append("<a href=\"services/Alignment?torder="+taxonomic_order+"&hclass="+hrgp_class+
+                                    "\" class=\"btn btn-primary\">Alignment view</a>");
           }
           
           function doTree(taxonomic_order, hrgp_class) {
