@@ -46,23 +46,39 @@
 
                 // set your custom properties
                 opts.importURL = '@@ALIGNMENT_URL@@';
-                opts.el = document.getElementById('result');
+                var title = '@@TITLE@@';
+                document.getElementById('title').innerHTML = "<h3>"+title+"</h3>";
+                opts.el = document.getElementById('msa');
+                var menuDiv = document.getElementById('menuDiv');
                 opts.vis = {conserv: false, overviewbox: true};
-                opts.zoomer = {alignmentHeight: 225, labelWidth: 130,labelFontsize: "9px",labelIdLength: 20,   menuFontsize: "12px",menuMarginLeft: "3px", menuPadding: "3px 4px 3px 4px", menuItemFontsize: "14px", menuItemLineHeight: "14px"};
+                opts.zoomer = {
+                            labelFontsize: 7, 
+                            labelLineHeight: "13px",
+                            labelIdLength: 20,  
+                            menuFontsize: "12px",
+                            menuMarginLeft: "3px", 
+                            menuPadding: "3px 4px 3px 4px", 
+                            menuItemFontsize: "14px", 
+                            menuItemLineHeight: "14px",
+                            boxRectWidth: 1.8,
+                            boxRectHeight: 1.8};
+                opts.conf = {
+                        dropImport: true // allow to import sequences via drag & drop
+                };
                 
                 // init msa
                 var m = new msa(opts);
 
-                // the menu is independent to the MSA container
-                var menuOpts = {};
-                menuOpts.el  = document.getElementById('menuDiv');
-                menuOpts.msa = m;
-                var defMenu  = new msa.menu.defaultmenu(menuOpts);
-                m.
-                m.addView("menu", defMenu);
+                m.u.file.importURL(opts.importURL, function() {
+                    // the menu is independent to the MSA container
+                    var defMenu = new msa.menu.defaultmenu({
+                      el: menuDiv,
+                      msa: m
+                    });
+                    defMenu.render();
+                    m.render();
+                  });
 
-                // call render at the end to display the whole MSA
-                m.render();
             });
       </script>
       
@@ -76,9 +92,9 @@
                     
                     <!-- main output region, which displays the menubar and alignment (MSA) -->
                     <div class="col-lg-10">
-                        <h3 id="result-heading"></h3>
                         <div id="menuDiv"></div>
-                        <div id="result"> </div>
+                        <h3 id="title"></h3>
+                        <div id="msa"> </div>
                     </div>
                     
                 </div>

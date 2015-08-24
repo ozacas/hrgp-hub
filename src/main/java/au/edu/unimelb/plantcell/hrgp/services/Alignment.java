@@ -65,6 +65,8 @@ public class Alignment extends HttpServlet {
         String html = IOUtils.toString(in);
         IOUtils.closeQuietly(in);
         html = html.replaceAll("@@ALIGNMENT_URL@@", alignment_url);
+        String title = params.get("torder") + " - " + params.get("hclass");
+        html = html.replaceAll("@@TITLE@@", title);
         
         /*
          * We write out alignment.html, customised to the file being aligned... 
