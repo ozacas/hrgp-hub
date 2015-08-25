@@ -134,9 +134,8 @@ public class auto1KPDataComplete extends HttpServlet {
        JsonArrayBuilder bldr = factory.createArrayBuilder();
 
        try {
-            Class.forName("com.mysql.jdbc.Driver");
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/seqdb_onekp", "root", "Ethgabitc!");
-
+            Connection conn = ServiceCore.getOneKPDatabaseConnection();
+            
             for (String term : params.get("str").split("\\s+")) {
                 if (term.startsWith("order:")) {
                     addOrderHits(term, bldr, conn);

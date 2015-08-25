@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+        <meta name="description" content="">
+        <meta name="author" content="">
+
+        <title>Repeat finding with TRAL</title>
+
+        <!-- needed to ensure carousel are correctly sized -->
+        <link href="css/mine.css" rel="stylesheet">
+        <!-- Custom styles for this template -->
+        <link href="css/blog.css" rel="stylesheet">
+        <!-- Bootstrap core CSS -->
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+        <!-- sidebar -->
+        <link href="css/simple-sidebar.css" rel="stylesheet">
+        <!-- Important Owl stylesheet -->
+        <link rel="stylesheet" href="css/owl.carousel.css">
+        <!-- autocomplete stylesheet stuff -->
+        <link rel="stylesheet" href="css/jquery-ui.css" />
+        <link rel="stylesheet" href="js/featherlight.min.css" type="text/css" />
+
+        <script type="text/javascript" src="js/jquery-latest.js"></script>
+        <script type="text/javascript" src="js/jquery-ui.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <!-- Include owl carousel plugin -->
+        <script src="js/owl.carousel.min.js"></script>
+        <!-- featherlight lightbox jquery plugin -->
+        <script src="js/featherlight.min.js" type="text/javascript" charset="utf-8"></script>
+    </head>
+    <body>
+        <div class="blog-masthead">
+            <div class="container">
+              <nav class="blog-nav">
+                <a class="blog-nav-item" href="index.html">Home</a>
+                <a class="blog-nav-item" href="hrgp.html">About HRGP</a>
+                <a class="blog-nav-item" href="methods.html">Bioinformatics</a>
+                <a class="blog-nav-item" href="phylogeny.html">Phylogeny</a>
+                <a class="blog-nav-item" href="download.html">Download</a>
+                <a class="blog-nav-item" href="about_us.html">About us</a>
+              </nav>
+            </div>
+        </div>
+        
+         <!-- Page Content -->
+        <div id="page-content-wrapper">
+            <div class="container-fluid">
+               
+                <div class="row">
+                     <form role="form" action="javascript:doSearch();">
+                        <div class="form-group">
+                          <label for="q">Species/order/clade:</label>
+                          <input type="text" class="form-control" id="q">
+                        </div>
+                       
+                        <button type="submit" class="btn btn-default">Search</button>
+                     </form>
+                </div>
+                
+                <div class="row" id="result">
+                    <!-- this div is replaced by the results of the last search -->
+                </div>
+            </div>
+        </div>
+         
+        <script>
+            function doSearch() {
+                var q = document.getElementById("q").value.trim();
+                $.ajax({
+                     url: "services/RepeatSearch",
+                     data: {
+                         q: q
+                     },
+                     success: function( data ) {
+                        $( "#result" ).html( data );
+                     }
+                });
+            }
+        </script>
+    </body>
+</html>

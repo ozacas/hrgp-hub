@@ -37,6 +37,18 @@
         <servlet-name>Search</servlet-name>
         <servlet-class>au.edu.unimelb.plantcell.hrgp.services.Search</servlet-class>
     </servlet>
+    <servlet>
+         <servlet-name>RepeatSearch</servlet-name>
+         <servlet-class>au.edu.unimelb.plantcell.hrgp.services.tral.RepeatSearchService</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>RepeatAlignmentsFor</servlet-name>
+        <servlet-class>au.edu.unimelb.plantcell.hrgp.services.tral.RepeatAlignmentsFor</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DBAlignmentDownload</servlet-name>
+        <servlet-class>au.edu.unimelb.plantcell.hrgp.services.tral.DBAlignmentDownload</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>AvailableDownloads</servlet-name>
         <url-pattern>/services/AvailableDownloads</url-pattern>
@@ -72,6 +84,18 @@
     <servlet-mapping>
         <servlet-name>AlignmentDownload</servlet-name>
         <url-pattern>/services/AlignmentDownload</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RepeatSearch</servlet-name>
+        <url-pattern>/services/RepeatSearch</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RepeatAlignmentsFor</servlet-name>
+        <url-pattern>/services/RepeatAlignmentsFor</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DBAlignmentDownload</servlet-name>
+        <url-pattern>/services/DBAlignmentDownload</url-pattern>
     </servlet-mapping>
     <security-constraint>
         <web-resource-collection>

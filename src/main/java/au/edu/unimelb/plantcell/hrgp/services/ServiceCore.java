@@ -10,6 +10,9 @@ import java.io.File;
 import java.io.FileFilter;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -156,5 +159,25 @@ public class ServiceCore {
         String relative = new File(ROOT).toURI().relativize(new File(path.getAbsolutePath()).toURI()).getPath();
         
         return relative;
+    }
+
+    /**
+     * Caller is responsible for closing the connection. Used to centralise database connection
+     * handling so that password handling is minimised
+     * 
+     * @return guaranteed non-null
+     * @throws java.lang.ClassNotFoundException no suitable JDBC driver available
+     * @throws java.sql.SQLException bad connection to the database
+     */
+    public static final Connection getTRALDatabaseConnection() throws ClassNotFoundException, SQLException {
+         Class.forName("com.mysql.jdbc.Driver");
+         Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/tral", "root", "Ethgabitc!");
+         return conn;
+    }
+
+    public static final Connection getOneKPDatabaseConnection() throws ClassNotFoundException, SQLException {
+         Class.forName("com.mysql.jdbc.Driver");
+         Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/seqdb_onekp", "root", "Ethgabitc!");
+         return conn;
     }
 }
