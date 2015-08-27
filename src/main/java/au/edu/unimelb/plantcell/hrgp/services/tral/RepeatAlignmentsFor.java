@@ -54,7 +54,9 @@ public class RepeatAlignmentsFor extends HttpServlet {
                                 "?model="+params.get("model");
         html = html.replaceAll("@@ALIGNMENT_URL@@", alignment_url);
         html = html.replaceAll("@@TITLE@@", new String(Base64.getDecoder().decode(params.get("model"))));
-        
+        html = html.replaceAll("@@MESSAGE@@", 
+                "This alignment represents all hits to the repeat found in the RD001 dataset at better than evalue 1e-5. The idea of this data is to identify possibly novel PRPs using repeats identified by TRAL as seed models where SignalP was not able to predict due to missing/incorrect N-terminal sequence."
+        );
         /*
          * We write out alignment.html, customised to the file being aligned... 
          */

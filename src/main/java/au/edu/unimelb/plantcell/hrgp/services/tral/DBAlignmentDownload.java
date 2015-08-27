@@ -45,6 +45,11 @@ public class DBAlignmentDownload extends HttpServlet {
             throw new ServletException("No cpHMM model ID!");
         }
         String model = new String(Base64.getDecoder().decode(params.get("model")));
+        model = model.replaceAll("/", "_");
+        if (model.length() > 100 || !model.matches("^[A-Z]{4}_Locus_\\d+_Transcript_\\d+_\\d+_.*$")) {
+            throw new ServletException("Illegal model ID: oases locus ID expected");
+        }
+        
         // FIXME BUG TODO.. validate model parameter
         response.setContentType("text/plain;charset=UTF-8");
         try (PrintWriter pw = response.getWriter(); 

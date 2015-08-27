@@ -47,7 +47,9 @@
                 // set your custom properties
                 opts.importURL = '@@ALIGNMENT_URL@@';
                 var title = '@@TITLE@@';
+                var message = '@@MESSAGE@@';
                 document.getElementById('title').innerHTML = "<h3>"+title+"</h3>";
+                document.getElementById('message').innerHTML = "<p>"+message+"</p>";
                 opts.el = document.getElementById('msa');
                 var menuDiv = document.getElementById('menuDiv');
                 opts.vis = {conserv: false, overviewbox: true};
@@ -94,6 +96,7 @@
                     <div class="col-lg-10">
                         <div id="menuDiv"></div>
                         <h3 id="title"></h3>
+                        <p id="message"></p>
                         <div id="msa"> </div>
                     </div>
                     

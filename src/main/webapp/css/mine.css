@@ -53,3 +53,6 @@ img.maabCarouselImg, li.maabCarouselImg {
   text-shadow: 0 1px 1px #fff;
 }
 
+pre {
+    font-size: 9px;
+}

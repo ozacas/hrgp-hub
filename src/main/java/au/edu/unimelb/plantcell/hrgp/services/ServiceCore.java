@@ -11,19 +11,29 @@ import java.io.FileFilter;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import javax.annotation.Resource;
+import javax.ejb.Stateless;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.servlet.ServletException;
+import javax.sql.DataSource;
 
 /**
  *
  * @author acassin
  */
+@Stateless
 public class ServiceCore {
     public final static String ROOT = "/1kp/hrgp/classical-AGP";
+    @Resource(name="onekp_db")
+    private static DataSource db_onekp;
+    @Resource(name="tral_db")
+    private static DataSource db_tral;
+    
     
     public static final Map<String, String> splitQuery(final String query) throws UnsupportedEncodingException {
         Map<String, String> query_pairs = new LinkedHashMap<>();
@@ -166,18 +176,50 @@ public class ServiceCore {
      * handling so that password handling is minimised
      * 
      * @return guaranteed non-null
-     * @throws java.lang.ClassNotFoundException no suitable JDBC driver available
      * @throws java.sql.SQLException bad connection to the database
+     * @throws javax.naming.NamingException no suitable DataSource configured in application server
      */
-    public static final Connection getTRALDatabaseConnection() throws ClassNotFoundException, SQLException {
-         Class.forName("com.mysql.jdbc.Driver");
-         Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/tral", "root", "Ethgabitc!");
+    public static final Connection getTRALDatabaseConnection() throws SQLException, NamingException {
+         if (db_tral == null) {
+             InitialContext ic = new InitialContext();
+             String[] tries = new String[] { "tral_db", "java:comp/env/jdbc/tral_db", "java:comp/env/tral_db" };
+             for (String name : tries) {
+                 try {
+                     db_tral = (DataSource) ic.lookup(name);
+                 } catch (NamingException ne) {
+                     continue;
+                 }
+                 if (db_tral != null) {
+                     break;
+                 }
+             }
+             if (db_tral == null) {
+                 throw new SQLException("No TRAL database connection!");
+             }
+         }
+         Connection conn = db_tral.getConnection();
          return conn;
     }
 
-    public static final Connection getOneKPDatabaseConnection() throws ClassNotFoundException, SQLException {
-         Class.forName("com.mysql.jdbc.Driver");
-         Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/seqdb_onekp", "root", "Ethgabitc!");
+    public static final Connection getOneKPDatabaseConnection() throws SQLException, NamingException {
+         if (db_onekp != null) {
+             InitialContext ic = new InitialContext();
+             String[] tries = new String[] { "onekp_db", "java:comp/env/jdbc/onekp_db", "java:comp/env/onekp_db" };
+             for (String name : tries) {
+                 try {
+                    db_onekp = (DataSource) ic.lookup(name);
+                 } catch (NamingException ne) {
+                     continue;
+                 }
+                 if (db_onekp != null) {
+                     break;
+                 }
+             }
+             if (db_onekp == null) {
+                 throw new SQLException("No OneKP database connection!");
+             }
+         }
+         Connection conn = db_onekp.getConnection();
          return conn;
     }
 }
