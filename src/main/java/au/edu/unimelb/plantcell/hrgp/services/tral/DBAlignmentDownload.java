@@ -54,14 +54,14 @@ public class DBAlignmentDownload extends HttpServlet {
         response.setContentType("text/plain;charset=UTF-8");
         try (PrintWriter pw = response.getWriter(); 
                 Connection conn = ServiceCore.getTRALDatabaseConnection()) {
-           PreparedStatement stmt = conn.prepareStatement("select * from prp_significant_repeat_alignments where cphmm_model = ?");
+           PreparedStatement stmt = conn.prepareStatement("select aligned_sequence_id,Aligned_Sequences__list_ from significant_repeat_alignments where cphmm_model = ?");
            stmt.setString(1, model.replaceAll("/", "_"));
            logger.log(Level.INFO, "Searching for alignments for {0}", new Object[] { model });
            ResultSet rs = stmt.executeQuery();
            int n = 0;
            while (rs.next()) {
-               String id = rs.getString("aligned_sequence_id");
-               String seq = rs.getString("aligned_sequence");
+               String id = rs.getString(1);
+               String seq = rs.getString(2);
                pw.print(">");
                pw.println(id);
                pw.println(seq);

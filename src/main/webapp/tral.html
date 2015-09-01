@@ -57,22 +57,35 @@ and open the template in the editor.
                
                 <div class="row">
                      <form role="form" action="javascript:doSearch();">
-                        <div class="form-group col-sm-3">
+                        <div class="form-group col-sm3">
                           <label for="q">Search by 1KP taxonomy names (clade/order/family etc.)</label>
                           
                           <div class="input-group">
-                                <input type="text" class="form-control" id="q">
+                                <input type="text" class="form-control" id="q" placeholder="monocot">
                                 <span class="input-group-btn">
                                     <button class="btn btn-default" type="submit">Go!</button>
                                 </span>                    
                           </div>
                        
-                            <div>
+                          <div>
                                 Report results matching:
-                                <div><label><input id="radio1" class="active" type="radio" checked="checked" name="what">repeats</label>
-                                    <label><input id="radio2" type="radio" name="what">aligned sequences</label></div>
-                            </div>
-                         </div>
+                                <label><input id="radio1" class="active" type="radio" checked="checked" name="what">repeats</label>
+                                <label><input id="radio2" type="radio" name="what">aligned sequences</label>
+                          </div>
+                                      
+                          <div>
+                              <label>Report only repeats with motif (amino acids only): 
+                                  <input id="motif" type="text" name="motif" placeholder="YxY" />
+                              </label>
+                              <label>Limit reported repeats to class: 
+                                  <select id="classlimit" name="classlimit">
+                                      <option value="all">All classes (CL-Extensin, PRP &amp; misc. HRGP)</option>
+                                      <option value="class2">Only class 2 (CL-Extensin)</option>
+                                      <option value="class3">Only class 3 (non-chimeric PRP)</option>
+                                      <option value="class24">Only class 24 (misc. HRGP)</option>
+                                  </select>
+                              </label>
+                          </div>
                      </form>
                 </div>
                 
@@ -86,11 +99,15 @@ and open the template in the editor.
             function doSearch() {
                 var q = document.getElementById("q").value.trim();
                 var what = document.getElementById("radio1").checked ? "repeats" : "sequences";
+                var motif = document.getElementById("motif").value.trim();
+                var classfilter = document.getElementById("classlimit").value.trim();
                 $.ajax({
                      url: "services/RepeatSearch",
                      data: {
                          q: q,
-                         what: what
+                         what: what,
+                         motif: motif,
+                         classfilter: classfilter
                      },
                      success: function( data ) {
                         $( "#result" ).html( data );
